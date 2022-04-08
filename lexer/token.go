@@ -1,4 +1,4 @@
-package parser
+package lexer
 
 type Token struct {
 	pos   int // position of the token (inside the line)

@@ -1,4 +1,4 @@
-package parser
+package lexer
 
 // int representation for tokens
 
