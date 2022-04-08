@@ -1,0 +1,9 @@
+-------
+Basic Syntax:
+
+for () {}
+if () {}
+gag = 123456
+function (arg, arg) {
+    
+}
