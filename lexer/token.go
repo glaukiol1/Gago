@@ -1,14 +1,37 @@
 package lexer
 
+import (
+	"fmt"
+	"regexp"
+	"strconv"
+)
+
 type Token struct {
 	pos   int // position of the token (inside the line)
 	line  int
-	value string // the value of the token its-self
-	code  int    // the token code (specified in token_codes.go)
+	value interface{} // the value of the token its-self
+	code  int         // the token code (specified in token_codes.go)
 }
 
 func NewToken(token string, pos int, line int) *Token {
 	return &Token{pos, line, token, getTokenCode(token)}
+}
+
+func (token *Token) IsWhitespace() bool {
+	return token.value == " " || token.value == "\\t" || token.value == "\\n"
+}
+
+var isLetter = regexp.MustCompile(`^[a-zA-Z]+$`).MatchString
+
+func (token *Token) IsCharacter() bool {
+	return isLetter(fmt.Sprint(token.value))
+}
+
+func (token *Token) IsNumber() bool {
+	if _, err := strconv.ParseInt(token.value.(string), 10, 64); err == nil {
+		return true
+	}
+	return false
 }
 
 func getTokenCode(token string) int {
