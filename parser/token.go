@@ -137,6 +137,68 @@ func getTokenCode(token string) int {
 		return NUM_8
 	case "9":
 		return NUM_9
+	case "[":
+		return OPEN_SQUARE_BRACKET
+	case "]":
+		return CLOSE_SQUARE_BRACKET
+	case "{":
+		return OPEN_CURLY_BRACKET
+	case "}":
+		return CLOSE_CURLY_BRACKET
+	case ";":
+		return SEMICOLON
+	case ":":
+		return COLON
+	case "/":
+		return FORWARD_SLASH
+	case "\\":
+		return BACK_SLASH
+	case "\"":
+		return DOUBLE_QUOTE
+	case "'":
+		return SINGLE_QUOTE
+	case ".":
+		return DOT
+	case ",":
+		return COMMA
+	case "<":
+		return LESS_THAN
+	case ">":
+		return GREATER_THAN
+	case "?":
+		return QUESTION_MARK
+	case "|":
+		return VERTICAL_BAR
+	case "=":
+		return EQUALS
+	case "+":
+		return PLUS
+	case "-":
+		return HYPHEN
+	case "_":
+		return UNDERSCORE
+	case "!":
+		return EXCLAMATION_MARK
+	case "@":
+		return AT_SIGN
+	case "#":
+		return NUMBER_SIGN
+	case "$":
+		return DOLLAR_SIGN
+	case "%":
+		return PERCENTAGE_SIGN
+	case "^":
+		return CARET
+	case "&":
+		return AND_SIGN
+	case "*":
+		return ASTERIK
+	case "~":
+		return TILDE
+	case "`":
+		return BACKTICK
+	case " ":
+		return SPACE
 	}
 	return -1
 }
