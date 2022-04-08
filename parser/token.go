@@ -197,6 +197,10 @@ func getTokenCode(token string) int {
 		return TILDE
 	case "`":
 		return BACKTICK
+	case "(":
+		return OPEN_PAREN
+	case ")":
+		return CLOSE_PAREN
 	case " ":
 		return SPACE
 	}

@@ -106,4 +106,6 @@ const AND_SIGN = 88 // &
 const ASTERIK = 89  // *
 const TILDE = 90    // ~
 const BACKTICK = 91 // `
-const SPACE = 92
+const OPEN_PAREN = 92
+const CLOSE_PAREN = 93
+const SPACE = 94
