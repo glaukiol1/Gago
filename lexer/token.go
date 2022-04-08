@@ -13,12 +13,27 @@ type Token struct {
 	code  int         // the token code (specified in token_codes.go)
 }
 
-func NewToken(token string, pos int, line int) *Token {
-	return &Token{pos, line, token, getTokenCode(token)}
+func NewToken(token string, pos int) *Token {
+	if token == "EOF" {
+		return &Token{pos, -1, token, EOF}
+	}
+	return &Token{pos, -1, token, getTokenCode(token)}
 }
 
 func (token *Token) IsWhitespace() bool {
-	return token.value == " " || token.value == "\\t" || token.value == "\\n"
+	return token.value == " " || token.value == "\\t" || token.value == "\t"
+}
+
+func (token *Token) SetLine(line int) {
+	token.line = line
+}
+
+func (token *Token) GetCode() int {
+	return token.code
+}
+
+func (token *Token) IsNewline() bool {
+	return token.value == "\\n" || token.value == "\n"
 }
 
 var isLetter = regexp.MustCompile(`^[a-zA-Z]+$`).MatchString
@@ -32,6 +47,10 @@ func (token *Token) IsNumber() bool {
 		return true
 	}
 	return false
+}
+
+func (token *Token) GetValue() interface{} {
+	return token.value
 }
 
 func getTokenCode(token string) int {
@@ -226,6 +245,8 @@ func getTokenCode(token string) int {
 		return CLOSE_PAREN
 	case " ":
 		return SPACE
+	case "\n":
+		return NEWLINE
 	}
 	return -1
 }

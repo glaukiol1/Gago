@@ -3,13 +3,11 @@ package lexer
 import (
 	"fmt"
 	"strconv"
-	"strings"
 )
 
 type Lexer struct {
 	filecontents []byte   // the whole file
 	filename     string   // name of the file being read
-	lines        []*Line  // current lines being parsed
 	eof          bool     // flag to show EOF was read
 	bracket      int      // number of brackets
 	parenthesis  int      // number of parenthesis
@@ -20,7 +18,7 @@ type Lexer struct {
 }
 
 func NewLex(filecontent, filename string) *Lexer {
-	return &Lexer{[]byte(filecontent), filename, []*Line{}, false, 0, 0, 0, []*Token{}, false, ""}
+	return &Lexer{[]byte(filecontent), filename, false, 0, 0, 0, []*Token{}, false, ""}
 }
 
 func (lexer *Lexer) GetTokens() []*Token {
@@ -29,12 +27,16 @@ func (lexer *Lexer) GetTokens() []*Token {
 
 func (lexer *Lexer) Lex(v bool) error {
 	str_file := string(lexer.filecontents)
-	lines := strings.Split(str_file, "\n")
-	for linepos, ln := range lines {
-		line := NewLine(lexer, ln, linepos+1)
-		line.ParseLine()
-		if line.error {
-			return fmt.Errorf(line.errorString)
+	for pos, ln := range str_file {
+		if pos == len(str_file)-1 {
+			lexer.tokens = append(lexer.tokens, NewToken("EOF", pos))
+			return nil
+		}
+		token := NewToken(string(ln), pos)
+		if token.code == 13 && lexer.tokens[len(lexer.tokens)-1].code == 69 && lexer.tokens[len(lexer.tokens)-2].code != 69 {
+			lexer.tokens[len(lexer.tokens)-1] = NewToken("\n", pos)
+		} else {
+			lexer.tokens = append(lexer.tokens, token)
 		}
 	}
 	if v {

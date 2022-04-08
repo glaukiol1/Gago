@@ -109,3 +109,5 @@ const BACKTICK = 91 // `
 const OPEN_PAREN = 92
 const CLOSE_PAREN = 93
 const SPACE = 94
+const NEWLINE = 95
+const EOF = 96
