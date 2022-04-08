@@ -1,7 +1,12 @@
 package main
 
-import "github.com/glaukiol1/gago/parser"
+import (
+	"fmt"
+	"strconv"
+
+	"github.com/glaukiol1/gago/parser"
+)
 
 func main() {
-	parser.RunDemoLex()
+	fmt.Println("All tests passed: " + strconv.FormatBool(parser.TestLex()))
 }
