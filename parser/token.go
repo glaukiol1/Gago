@@ -117,6 +117,26 @@ func getTokenCode(token string) int {
 		return CHAR_Y_UPPER
 	case "Z":
 		return CHAR_Z_UPPER
+	case "0":
+		return NUM_0
+	case "1":
+		return NUM_1
+	case "2":
+		return NUM_2
+	case "3":
+		return NUM_3
+	case "4":
+		return NUM_4
+	case "5":
+		return NUM_5
+	case "6":
+		return NUM_6
+	case "7":
+		return NUM_7
+	case "8":
+		return NUM_8
+	case "9":
+		return NUM_9
 	}
 	return -1
 }
