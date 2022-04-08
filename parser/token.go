@@ -1,13 +1,14 @@
 package parser
 
 type Token struct {
-	pos   int    // position of the token
+	pos   int // position of the token (inside the line)
+	line  int
 	value string // the value of the token its-self
 	code  int    // the token code (specified in token_codes.go)
 }
 
-func NewToken(token string, pos int) *Token {
-	return &Token{pos, token, getTokenCode(token)}
+func NewToken(token string, pos int, line int) *Token {
+	return &Token{pos, line, token, getTokenCode(token)}
 }
 
 func getTokenCode(token string) int {
@@ -58,6 +59,8 @@ func getTokenCode(token string) int {
 		return CHAR_V_LOWER
 	case "w":
 		return CHAR_W_LOWER
+	case "x":
+		return CHAR_X_LOWER
 	case "y":
 		return CHAR_Y_LOWER
 	case "z":
