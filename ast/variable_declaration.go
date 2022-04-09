@@ -4,8 +4,8 @@ const VTYPE_VAR = 0
 const VTYPE_CONST = 1
 
 type VariableDeclaration struct {
-	vtype  int         // constant or not constant
-	vname  string      // variable name
-	vvalue interface{} // variable value
 	Ast                // inherit Ast struct
+	Vtype  int         // constant or not constant
+	Vname  string      // variable name
+	Vvalue interface{} // variable value
 }

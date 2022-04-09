@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"reflect"
 
 	"github.com/glaukiol1/gago/lexer"
 )
@@ -71,11 +72,27 @@ func (parser *Parser) Parse(v bool) {
 // parse sep whitespace tokens inside a newline
 // Example: [token("c"),token("o"),token("n"),token("s"),token("t")]
 func (parser *Parser) parsenewlineTokens(whitespace_sep_tokens []*lexer.Token) {
-	if parser.v {
-		for i, t := range whitespace_sep_tokens {
-			fmt.Println("t: ", t.GetValue().(string), " i: ", fmt.Sprint(i))
-		}
+	var codes []int
+	for _, t := range whitespace_sep_tokens {
+		codes = append(codes, t.GetCode())
 	}
+	parser.checkPattern(codes)
+}
+
+// match token codes with known patterns
+func (parser *Parser) checkPattern(codes []int) interface{} {
+	if reflect.DeepEqual(codes, KEYWORD_CONST_CODE) {
+		if parser.v {
+			fmt.Println("found const statement")
+		}
+		return nil
+	} else if reflect.DeepEqual(codes, KEYWORD_VAR_CODE) {
+		if parser.v {
+			fmt.Println("found var statement")
+		}
+		return nil
+	}
+	return nil
 }
 
 func (parser *Parser) removeTrailingSpaces(whitespace_sep_tokens []*lexer.Token) ([]*lexer.Token, int) {
