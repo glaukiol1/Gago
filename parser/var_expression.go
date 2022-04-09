@@ -6,16 +6,16 @@ import (
 )
 
 // handle functions
-// where the parser found the KEYWORD_CONST code pattern
+// where the parser found the KEYWORD_VAR code pattern
 
-// base function for handling const expressions
+// base function for handling var expressions
 
 // rules for variable names
 //	* Must START with a character
 //  * Must NOT have special characters (any type)
 //	* Must ONLY have numbers AFTER the first CHARACTER
 
-func handle_const_expression(cursor *multipleCursor, parser *Parser) {
+func handle_var_expression(cursor *multipleCursor, parser *Parser) {
 	lexer := parser.lexer
 	cursor.SetIndex(1) // start at index 1
 
@@ -70,5 +70,5 @@ func handle_const_expression(cursor *multipleCursor, parser *Parser) {
 			tmpvalue += t.GetValue().(string)
 		}
 	}
-	parser.ast = append(parser.ast, ast.VariableDeclaration{ast.AST_TYPE_VAR_DECLARATION, ast.VTYPE_CONST, vname, tmpvalue}) // FIXME: use a lang.String() instead of tmpvalue
+	parser.ast = append(parser.ast, ast.VariableDeclaration{ast.AST_TYPE_VAR_DECLARATION, ast.VTYPE_VAR, vname, tmpvalue}) // FIXME: use a lang.String() instead of tmpvalue
 }
