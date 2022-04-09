@@ -7,4 +7,5 @@ type VariableDeclaration struct {
 	vtype  int         // constant or not constant
 	vname  string      // variable name
 	vvalue interface{} // variable value
+	Ast                // inherit Ast struct
 }

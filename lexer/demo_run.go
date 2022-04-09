@@ -5,10 +5,10 @@ import (
 )
 
 func TestLex() *Lexer {
-	downcase_lexed := NewLex("abcdefghijklmnopqrstuvwxyz\\nABCDEFGHIJKLMNOPQRSTUVWXYZ\\n0123456789\\n[]{};:/\\\"'.,<>?|=+-_!@#$%^&*~`() ", "<testfile>")
+	downcase_lexed := NewLex("const h = 123", "<testfile>")
 	err := downcase_lexed.Lex(true)
 	if err != nil {
-		fmt.Println(downcase_lexed.errorString)
+		fmt.Println("ERROR", downcase_lexed.errorString)
 	}
 	return downcase_lexed
 }

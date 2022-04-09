@@ -29,8 +29,8 @@ func (lexer *Lexer) Lex(v bool) error {
 	str_file := string(lexer.filecontents)
 	for pos, ln := range str_file {
 		if pos == len(str_file)-1 {
-			lexer.tokens = append(lexer.tokens, NewToken("EOF", pos))
-			return nil
+			lexer.tokens = append(lexer.tokens, NewToken(string(ln), pos), NewToken("EOF", pos))
+			break
 		}
 		token := NewToken(string(ln), pos)
 		if token.code == 13 && lexer.tokens[len(lexer.tokens)-1].code == 69 && lexer.tokens[len(lexer.tokens)-2].code != 69 {
