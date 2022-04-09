@@ -23,7 +23,7 @@ func (tt *tokentester) CodeIs(match int, fatal bool) bool {
 	if tt.token.GetCode() == match {
 		return true
 	}
-	lang.Errorf("SyntaxError", "Unexpected token", lang.BuildStack(tt.token, tt.lexer.GetFilename()), fatal)
+	lang.Errorf("SyntaxError", "Unexpected token", lang.BuildStack(tt.token, tt.lexer.GetFilename()), fatal).Run()
 	return false
 }
 
@@ -35,4 +35,27 @@ func (tt *tokentester) IsChar(err *lang.BaseError) bool {
 	}
 	err.Run()
 	return false
+}
+
+// isnotspecial checks if a token does not
+// represent a special character
+// throws a `SyntaxError: Unexpected token` if it is a special character
+func (tt *tokentester) IsNotSpecial(fatal bool) bool {
+	if !tt.token.IsNewline() && !tt.token.IsWhitespace() && (tt.token.IsCharacter() || tt.token.IsNumber()) {
+		return true
+	}
+	lang.Errorf("SyntaxError", "Unexpected token", lang.BuildStack(tt.token, tt.lexer.GetFilename()), fatal).Run()
+	return false
+}
+
+// valueis checks if the value of the token
+// is equal to `checkv`.
+// Throws `SyntaxError: Unexpected indentifier` if it is
+// not equal to `checkv`
+func (tt *tokentester) ValueIs(checkv interface{}, fatal bool) bool {
+	if tt.token.GetValue() != checkv {
+		lang.Errorf("SyntaxError", "Unexpected indentifier, expected `"+checkv.(string)+"`", lang.BuildStack(tt.token, tt.lexer.GetFilename()), fatal).Run()
+		return false
+	}
+	return true
 }

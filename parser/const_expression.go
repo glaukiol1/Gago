@@ -21,9 +21,23 @@ const keyword_var = 1
 
 func handle_const_expression(cursor *multipleCursor, lexer *lexer.Lexer) {
 	cursor.SetIndex(1) // start at index 1
+
+	// check if variable name is valid
 	for i, tkn := range cursor.CurrentTokens {
+		tkntest := NewTokenTest(tkn, lexer)
 		if i == 0 {
-			NewTokenTest(tkn, lexer).IsChar(lang.Errorf("SyntaxError", "Expected character in variable name", lang.BuildStack(tkn, lexer.GetFilename()), true))
+			tkntest.IsChar(lang.Errorf("SyntaxError", "Expected character in variable name", lang.BuildStack(tkn, lexer.GetFilename()), true))
+		} else {
+			tkntest.IsNotSpecial(true)
 		}
 	}
+
+	cursor.SetIndex(2) // switch to the index where the `=` should be located
+
+	// checks for `=`
+	if len(cursor.CurrentTokens) != 1 {
+		lang.Errorf("SyntaxError", "Unexpected indentifier, expected `=`", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
+		return
+	}
+	NewTokenTest(cursor.CurrentTokens[0], lexer).ValueIs("=", true)
 }
