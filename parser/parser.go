@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/glaukiol1/gago/ast"
 	"github.com/glaukiol1/gago/lexer"
 )
 
@@ -14,10 +15,11 @@ type Parser struct {
 	error         bool             // keep track of errors
 	errorString   string           // error string
 	v             bool             // verbose
+	ast           []interface{}    // abstract syntax tree (ast) output
 }
 
-func NewParser(lexer *lexer.Lexer, v bool) *Parser {
-	return &Parser{lexer: lexer, tokens: lexer.GetTokens(), error: false, errorString: "", v: v}
+func NewParser(lexer *lexer.Lexer) *Parser {
+	return &Parser{lexer: lexer, tokens: lexer.GetTokens(), error: false, errorString: "", v: lexer.GetV()}
 }
 
 func (parser *Parser) sepNewlines() {
@@ -55,14 +57,21 @@ func (parser *Parser) sepWhiteSpaces(newlinetokens []*lexer.Token) [][]*lexer.To
 	return array
 }
 
-func (parser *Parser) Parse(v bool) {
+func (parser *Parser) Parse() {
 	parser.sepNewlines()
-	if v {
-		for linepos, newline_sep_tokens := range parser.newlineTokens {
+	for linepos, newline_sep_tokens := range parser.newlineTokens {
+		if parser.v {
 			fmt.Println("---" + fmt.Sprint(linepos) + "---")
-			rmvd, _ := parser.removeTrailingSpaces(newline_sep_tokens)
-			whitespace_sep_tokens := parser.sepWhiteSpaces(rmvd)
-			parser.parsenewlineTokens(newMultipleCursor(whitespace_sep_tokens, linepos))
+		}
+		rmvd, _ := parser.removeTrailingSpaces(newline_sep_tokens)
+		whitespace_sep_tokens := parser.sepWhiteSpaces(rmvd)
+		parser.parsenewlineTokens(newMultipleCursor(whitespace_sep_tokens, linepos))
+	}
+	if parser.v {
+		for _, v := range parser.ast {
+			if p, ok := v.(ast.VariableDeclaration); ok {
+				fmt.Println("AST Variable Declaration: ", "var name: |"+p.Vname+"| var value: |"+p.Vvalue.(string)+"| variable type: |"+fmt.Sprint(p.Vtype)+"|")
+			}
 		}
 	}
 }
@@ -76,7 +85,7 @@ func (parser *Parser) parsenewlineTokens(cursor *multipleCursor) {
 		codes = append(codes, t.GetCode())
 	}
 	kcode := parser.checkPattern(codes)
-	handlePattern(cursor, parser.lexer, kcode)
+	handlePattern(cursor, parser, kcode)
 }
 
 // match token codes with known patterns

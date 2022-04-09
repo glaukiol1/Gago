@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"github.com/glaukiol1/gago/ast"
 	"github.com/glaukiol1/gago/lang"
 	"github.com/glaukiol1/gago/lexer"
 )
@@ -19,10 +20,11 @@ const keyword_var = 1
 //  * Must NOT have special characters (any type)
 //	* Must ONLY have numbers AFTER the first CHARACTER
 
-func handle_const_expression(cursor *multipleCursor, lexer *lexer.Lexer) {
+func handle_const_expression(cursor *multipleCursor, lexer *lexer.Lexer, parser *Parser) {
 	cursor.SetIndex(1) // start at index 1
 
 	// check if variable name is valid
+	vname := ""
 	for i, tkn := range cursor.CurrentTokens {
 		tkntest := NewTokenTest(tkn, lexer)
 		if i == 0 {
@@ -30,6 +32,7 @@ func handle_const_expression(cursor *multipleCursor, lexer *lexer.Lexer) {
 		} else {
 			tkntest.IsNotSpecial(true)
 		}
+		vname += tkn.GetValue().(string)
 	}
 
 	cursor.SetIndex(2) // switch to the index where the `=` should be located
@@ -71,4 +74,5 @@ func handle_const_expression(cursor *multipleCursor, lexer *lexer.Lexer) {
 			tmpvalue += t.GetValue().(string)
 		}
 	}
+	parser.ast = append(parser.ast, ast.VariableDeclaration{ast.AST_TYPE_VAR_DECLARATION, ast.VTYPE_CONST, vname, tmpvalue}) // FIXME: use a lang.String() instead of tmpvalue
 }

@@ -1,6 +1,7 @@
 package ast
 
 type VariableReDeclaration struct {
-	vname  string      // variable name
-	vvalue interface{} // new value
+	AstType int         // ast type
+	vname   string      // variable name
+	vvalue  interface{} // new value
 }
