@@ -70,11 +70,13 @@ func (parser *Parser) Parse(v bool) {
 // parse sep whitespace tokens inside a newline
 // Example: [token("c"),token("o"),token("n"),token("s"),token("t")]
 func (parser *Parser) parsenewlineTokens(cursor *multipleCursor) {
+	cursor.SetIndex(0)
 	var codes []int
 	for _, t := range cursor.CurrentTokens {
 		codes = append(codes, t.GetCode())
 	}
-	parser.checkPattern(codes)
+	kcode := parser.checkPattern(codes)
+	handlePattern(cursor, parser.lexer, kcode)
 }
 
 // match token codes with known patterns

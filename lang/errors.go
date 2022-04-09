@@ -22,12 +22,12 @@ func (baseError *BaseError) GetMessage() string {
 
 func (baseError *BaseError) Run() {
 	if baseError.IsFatal {
-		fmt.Println(baseError.Type + ": " + baseError.Message)
-		fmt.Print(baseError.stack)
+		fmt.Print(baseError.Type + ": " + baseError.Message)
+		fmt.Println(baseError.stack)
 		os.Exit(0)
 	}
-	fmt.Println(baseError.Type + ": " + baseError.Message)
-	fmt.Print(baseError.stack)
+	fmt.Print(baseError.Type + ": " + baseError.Message)
+	fmt.Println(baseError.stack)
 }
 
 func Errorf(errtype, message, stack string, isFatal bool) *BaseError {
