@@ -15,7 +15,7 @@ type Parser struct {
 	error         bool             // keep track of errors
 	errorString   string           // error string
 	v             bool             // verbose
-	ast           []interface{}    // abstract syntax tree (ast) output
+	Ast           []interface{}    // abstract syntax tree (ast) output
 }
 
 func NewParser(lexer *lexer.Lexer) *Parser {
@@ -68,9 +68,9 @@ func (parser *Parser) Parse() {
 		parser.parsenewlineTokens(newMultipleCursor(whitespace_sep_tokens, linepos))
 	}
 	if parser.v {
-		for _, v := range parser.ast {
+		for _, v := range parser.Ast {
 			if p, ok := v.(ast.VariableDeclaration); ok {
-				fmt.Println("AST Variable Declaration: ", "var name: |"+p.Vname+"| var value: |"+p.Vvalue.(string)+"| variable type: |"+fmt.Sprint(p.Vtype)+"|")
+				fmt.Println("AST Variable Declaration: ", "var name: |"+p.Vname+"| var value: |"+p.Vvalue.Val().(string)+"| variable type: |"+fmt.Sprint(p.Vtype)+"|")
 			}
 		}
 	}

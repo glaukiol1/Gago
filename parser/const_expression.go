@@ -70,5 +70,5 @@ func handle_const_expression(cursor *multipleCursor, parser *Parser) {
 			tmpvalue += t.GetValue().(string)
 		}
 	}
-	parser.ast = append(parser.ast, ast.VariableDeclaration{ast.AST_TYPE_VAR_DECLARATION, ast.VTYPE_CONST, vname, tmpvalue}) // FIXME: use a lang.String() instead of tmpvalue
+	parser.Ast = append(parser.Ast, ast.VariableDeclaration{ast.AST_TYPE_VAR_DECLARATION, ast.VTYPE_CONST, vname, lang.String(tmpvalue)})
 }
