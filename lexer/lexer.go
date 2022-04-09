@@ -25,6 +25,10 @@ func (lexer *Lexer) GetTokens() []*Token {
 	return lexer.tokens
 }
 
+func (lexer *Lexer) GetFilename() string {
+	return lexer.filename
+}
+
 func (lexer *Lexer) Lex(v bool) error {
 	str_file := string(lexer.filecontents)
 	for pos, ln := range str_file {

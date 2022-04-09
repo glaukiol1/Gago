@@ -62,37 +62,35 @@ func (parser *Parser) Parse(v bool) {
 			fmt.Println("---" + fmt.Sprint(linepos) + "---")
 			rmvd, _ := parser.removeTrailingSpaces(newline_sep_tokens)
 			whitespace_sep_tokens := parser.sepWhiteSpaces(rmvd)
-			for _, v := range whitespace_sep_tokens {
-				parser.parsenewlineTokens(v)
-			}
+			parser.parsenewlineTokens(newMultipleCursor(whitespace_sep_tokens, linepos))
 		}
 	}
 }
 
 // parse sep whitespace tokens inside a newline
 // Example: [token("c"),token("o"),token("n"),token("s"),token("t")]
-func (parser *Parser) parsenewlineTokens(whitespace_sep_tokens []*lexer.Token) {
+func (parser *Parser) parsenewlineTokens(cursor *multipleCursor) {
 	var codes []int
-	for _, t := range whitespace_sep_tokens {
+	for _, t := range cursor.CurrentTokens {
 		codes = append(codes, t.GetCode())
 	}
 	parser.checkPattern(codes)
 }
 
 // match token codes with known patterns
-func (parser *Parser) checkPattern(codes []int) interface{} {
+func (parser *Parser) checkPattern(codes []int) int {
 	if reflect.DeepEqual(codes, KEYWORD_CONST_CODE) {
 		if parser.v {
 			fmt.Println("found const statement")
 		}
-		return nil
+		return keyword_const
 	} else if reflect.DeepEqual(codes, KEYWORD_VAR_CODE) {
 		if parser.v {
 			fmt.Println("found var statement")
 		}
-		return nil
+		return keyword_var
 	}
-	return nil
+	return -1
 }
 
 func (parser *Parser) removeTrailingSpaces(whitespace_sep_tokens []*lexer.Token) ([]*lexer.Token, int) {

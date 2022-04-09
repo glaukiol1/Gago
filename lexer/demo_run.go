@@ -5,7 +5,7 @@ import (
 )
 
 func TestLex() *Lexer {
-	downcase_lexed := NewLex("const h = \"hello\"\nvar h1 = 123", "<testfile>")
+	downcase_lexed := NewLex("const h = \"hello\"", "<testfile>")
 	err := downcase_lexed.Lex(true)
 	if err != nil {
 		fmt.Println("ERROR", downcase_lexed.errorString)

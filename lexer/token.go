@@ -36,6 +36,10 @@ func (token *Token) IsNewline() bool {
 	return token.value == "\\n" || token.value == "\n"
 }
 
+func (token *Token) GetLine() int {
+	return token.line
+}
+
 var isLetter = regexp.MustCompile(`^[a-zA-Z]+$`).MatchString
 
 func (token *Token) IsCharacter() bool {
