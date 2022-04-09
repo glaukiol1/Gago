@@ -40,4 +40,35 @@ func handle_const_expression(cursor *multipleCursor, lexer *lexer.Lexer) {
 		return
 	}
 	NewTokenTest(cursor.CurrentTokens[0], lexer).ValueIs("=", true)
+
+	cursor.SetIndex(3) // switch to the value of the variable
+
+	// checks for variable value
+	qt := -1       // quote type, 0 for single 1 for double
+	tmpvalue := "" // hold the string value for now
+	//TODO: support more than just strings
+	for i, t := range cursor.CurrentTokens {
+		tkntest := NewTokenTest(t, lexer)
+		if i == 0 {
+			isSq := tkntest.NValueIs("'")
+			isDq := tkntest.NValueIs("\"")
+			if isSq {
+				qt = 0
+			} else if isDq {
+				qt = 1
+			} else {
+				lang.Errorf("SyntaxError", "Unexpected indentifier, expected a `'` or `\"`", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
+				return
+			}
+		} else if len(cursor.CurrentTokens)-1 == i {
+			isSq := tkntest.NValueIs("'")
+			isDq := tkntest.NValueIs("\"")
+			if !(isSq && qt == 0) && !(isDq && qt == 1) {
+				lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
+				return
+			}
+		} else {
+			tmpvalue += t.GetValue().(string)
+		}
+	}
 }

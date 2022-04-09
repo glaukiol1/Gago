@@ -59,3 +59,13 @@ func (tt *tokentester) ValueIs(checkv interface{}, fatal bool) bool {
 	}
 	return true
 }
+
+// nvalueis does the same function as valueis,
+// just that it does not throw an error
+
+func (tt *tokentester) NValueIs(checkv interface{}) bool {
+	if tt.token.GetValue() != checkv {
+		return false
+	}
+	return true
+}
