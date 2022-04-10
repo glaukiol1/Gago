@@ -16,6 +16,10 @@ type Memory struct {
 	// modules []*module.Module TODO: add module.Module
 }
 
+func NewMemory(v bool) *Memory {
+	return &Memory{v: true}
+}
+
 func (mem *Memory) VarCreate(name string, value interface{}) {
 	if val, ok := value.(lang.TypeString); ok {
 		mem.variables[name] = &val
