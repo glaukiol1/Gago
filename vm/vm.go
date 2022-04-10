@@ -44,7 +44,7 @@ func (vm *VM) Run() {
 			if vm.v {
 				fmt.Println("Running Variable Declaration AST... Vtype: " + fmt.Sprint(ast.Vtype) + " Vname: " + fmt.Sprint(ast.Vname) + " Vvalue: " + ast.Vvalue.Val().(string))
 			}
-			vm.mem.VarCreate(ast.Vname, ast.Vvalue.(*lang.TypeString))
+			vm.mem.VarCreate(ast.Vname, ast.Vvalue.(*lang.TypeString)) // FIXME: support more than just TypeString
 		}
 
 		// in the future, ast.VariableAccess will just subsitute the AST with the variable value,
@@ -57,6 +57,7 @@ func (vm *VM) Run() {
 		// will subsitute `testvar` with the value of it, in this case, `Hello World`.
 		// it will subsitute it not with a Go datatype, but a *lang.Type (which can be any of the
 		// goga datatypes).
+		// ast.VariableAccess will be a nested AST.
 		if ast, ok := v.(ast.VariableAccess); ok {
 			if vm.v {
 				fmt.Println("Running Variable Access AST... Vname: " + ast.Vname)
