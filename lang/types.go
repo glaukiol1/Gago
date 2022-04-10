@@ -6,7 +6,3 @@ package lang
 type TypeString struct {
 	BaseType
 }
-
-func String(s string) *TypeString {
-	return &TypeString{BaseType{Typename: "string", Value: s}}
-}

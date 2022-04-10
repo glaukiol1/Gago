@@ -42,6 +42,9 @@ func (mem *Memory) VarExists(name string) (lang.Type, bool) {
 
 func (mem *Memory) VarUpdate(name string, value interface{}) error {
 	if t, ok := mem.VarExists(name); ok {
+		if t.IsConstant() {
+			return lang.Errorf("TypeError", "Assignment to constant variable.", "At variable "+t.Name(), true)
+		}
 		t.Reassign(value)
 		return nil
 	}

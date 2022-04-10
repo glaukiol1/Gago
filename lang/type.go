@@ -8,6 +8,8 @@ package lang
 
 type Type interface {
 	Val() interface{}
-	Reassign(newval interface{})
+	Reassign(newval interface{}) error
 	Name() string
+	IsConstant() bool
+	SetConstant(bool)
 }
