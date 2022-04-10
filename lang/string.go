@@ -4,6 +4,6 @@ package lang
 // the lang.String type
 // find the definition in types.go
 
-func (str *TypeString) len() int {
+func (str *TypeString) Len() int {
 	return len(str.Value.(string))
 }

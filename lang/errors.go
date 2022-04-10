@@ -20,6 +20,10 @@ func (baseError *BaseError) GetMessage() string {
 	return baseError.Type
 }
 
+func (baseError *BaseError) Error() string {
+	return baseError.Type + ": " + baseError.Message
+}
+
 func (baseError *BaseError) Run() {
 	if baseError.IsFatal {
 		fmt.Print(baseError.Type + ": " + baseError.Message)
