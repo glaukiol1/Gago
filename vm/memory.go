@@ -2,6 +2,7 @@ package vm
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/glaukiol1/gago/lang"
 )
@@ -23,10 +24,10 @@ func NewMemory(v bool) *Memory {
 }
 
 func (mem *Memory) VarCreate(name string, value interface{}) {
-	if val, ok := value.(*lang.TypeString); ok {
+	if val, ok := value.(lang.Type); ok {
 		mem.variables[name] = val
 		if mem.v {
-			fmt.Println("Added variable to memory... Name: " + name + " Value: " + val.Val().(string))
+			fmt.Println("Added variable to memory... Name: " + name + " Value: " + val.Val().(string) + " Constant: " + strconv.FormatBool(val.IsConstant()))
 		}
 	}
 }
@@ -49,4 +50,11 @@ func (mem *Memory) VarUpdate(name string, value interface{}) error {
 		return nil
 	}
 	return lang.Errorf("RuntimeError", "Unable to reasssign to variable "+name, "", true)
+}
+
+func (mem *Memory) AccessVar(name string) (interface{}, error) {
+	if t, ok := mem.VarExists(name); ok {
+		return t.Val(), nil
+	}
+	return nil, lang.Errorf("ReferenceError", name+" is not defined.", "At variable "+name, true)
 }
