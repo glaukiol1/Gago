@@ -35,7 +35,9 @@ type VM struct {
 }
 
 func NewVM(parser *parser.Parser) *VM {
-	return &VM{v: parser.GetV(), mem: NewMemory(parser.GetV()), ast: parser.Ast, stdout: os.Stdout}
+	mem := NewMemory(parser.GetV())
+	mem.Init(&lang.Options{Stdout: os.Stdout})
+	return &VM{v: parser.GetV(), mem: mem, ast: parser.Ast, stdout: os.Stdout}
 }
 
 func (vm *VM) Run() {
