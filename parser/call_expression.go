@@ -86,6 +86,6 @@ func isValidString(str string) bool {
 }
 
 func goStrToGagoStr(str string) *lang.TypeString {
-	s := str[1 : len(str)-2]
+	s := str[1 : len(str)-1]
 	return lang.String(s)
 }

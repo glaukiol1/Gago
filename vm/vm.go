@@ -70,8 +70,38 @@ func (vm *VM) Run() {
 				return
 			}
 			if vm.v {
-				vm.println("Value: " + val.(string))
+				vm.println("Value: " + val.Val().(string))
 			}
+		}
+
+		// if the ast is of type ast.FuncCall, use the memory to access
+		// and run the named method
+		if ast_, ok := v.(ast.FuncCall); ok {
+			var args []lang.Type
+			for _, r := range ast_.Args {
+
+				// check if the Argument is of type VariableAccess
+				// meaning that it is a variable name, not a literal
+				if _ast, ok := r.(ast.VariableAccess); ok {
+					vval, err := vm.mem.AccessVar(_ast.Vname)
+					if err != nil {
+						err.(*lang.BaseError).Run()
+					}
+					args = append(args, vval)
+				}
+
+				// check if the Argument is of type Literal
+				// meaning that it is not a variable name,
+				// but a literal
+				if _ast, ok := r.(ast.Literal); ok {
+					args = append(args, _ast.Value)
+				}
+			}
+			mthd, err := vm.mem.AccessMethod(ast_.Funcname)
+			if err != nil {
+				err.(*lang.BaseError).Run()
+			}
+			mthd.RunMethod(args, &lang.Options{Stdout: os.Stdout})
 		}
 	}
 }

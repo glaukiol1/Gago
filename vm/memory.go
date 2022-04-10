@@ -20,7 +20,7 @@ type Memory struct {
 }
 
 func NewMemory(v bool) *Memory {
-	m := &Memory{v: true, methods: nil}
+	m := &Memory{v: v, methods: nil}
 	m.variables = make(map[string]lang.Type)  // initialize variable map
 	m.methods = make(map[string]*lang.Method) // initialize method map
 	return m
@@ -76,9 +76,9 @@ func (mem *Memory) VarUpdate(name string, value interface{}) error {
 	return lang.Errorf("RuntimeError", "Unable to reasssign to variable "+name, "", true)
 }
 
-func (mem *Memory) AccessVar(name string) (interface{}, error) {
+func (mem *Memory) AccessVar(name string) (lang.Type, error) {
 	if t, ok := mem.VarExists(name); ok {
-		return t.Val(), nil
+		return t, nil
 	}
 	return nil, lang.Errorf("ReferenceError", name+" is not defined.", "", true)
 }
