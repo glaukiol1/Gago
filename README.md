@@ -42,6 +42,8 @@ gago currently:
 
 Taking the project further is the main goal. Making a simple language which can run just like any programming language would be a end goal. Once Gago is ready to run some of the more basic code, running benchmarks will be added.
 
+Gago is currently in a _pre-release_ or _beta_ state.
+
 ## License
 
 This project is licensed under the MIT licence.
