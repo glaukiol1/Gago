@@ -39,6 +39,19 @@ func (cursor *multipleCursor) SetIndex(index int) {
 	cursor.CurrentTokens = cursor.tokens[cursor.currentIndex]
 }
 
+// join all from will join all from the specified index
+func (cursor *multipleCursor) JoinAllFrom(indx int) []*lexer.Token {
+	var rtrn []*lexer.Token
+	flag := false
+	for i, v := range cursor.tokens {
+		if i == indx || flag {
+			flag = true
+			rtrn = append(rtrn, v...)
+		}
+	}
+	return rtrn
+}
+
 func (cursor *multipleCursor) Before() {
 	cursor.currentIndex -= 1
 	cursor.CurrentTokens = cursor.tokens[cursor.currentIndex]
