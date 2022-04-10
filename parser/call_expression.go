@@ -6,6 +6,7 @@ import (
 
 	"github.com/glaukiol1/gago/ast"
 	"github.com/glaukiol1/gago/lang"
+	"github.com/glaukiol1/gago/lexer"
 )
 
 // handle the call ... expression
@@ -68,7 +69,7 @@ func handle_call_expression(cursor *multipleCursor, parser *Parser) {
 		}
 		rargs := strings.Split(rawargs, ",")
 		for _, v := range rargs {
-			if isValidString(v) {
+			if isValidString(v, parser.lexer, tkns[0]) {
 				st := goStrToGagoStr(v)
 				args = append(args, ast.Literal{AstType: ast.AST_TYPE_LITERAL, Value: st})
 			} else {
@@ -81,8 +82,24 @@ func handle_call_expression(cursor *multipleCursor, parser *Parser) {
 }
 
 // TODO: move these two function to a new utils directory
-func isValidString(str string) bool {
-	return (string(str[0]) == "\"" && string(str[len(str)-1]) == "\"") || (string(str[0]) == "'" && string(str[len(str)-1]) == "'")
+func isValidString(str string, lexer *lexer.Lexer, tkn *lexer.Token) bool {
+	qt := 0
+	isSqB := string(str[0]) == "'"
+	isDqB := string(str[0]) == "\""
+	if isSqB {
+		qt = 0
+	} else if isDqB {
+		qt = 1
+	} else {
+		return false
+	}
+	isSqE := string(str[len(str)-1]) == "'"
+	isDqE := string(str[len(str)-1]) == "\""
+	if !(isSqE && qt == 0) && !(isDqE && qt == 1) {
+		lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(tkn, lexer.GetFilename()), true).Run()
+		return false
+	}
+	return true
 }
 
 func goStrToGagoStr(str string) *lang.TypeString {

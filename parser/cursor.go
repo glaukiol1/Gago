@@ -15,7 +15,7 @@ func newMultipleCursor(tokens [][]*lexer.Token, linepos int) *multipleCursor {
 	// this loop sets the line of the token
 	for _, x := range tokens {
 		for _, z := range x {
-			z.SetLine(linepos)
+			z.SetLine(linepos + 1) // +1 because the index starts at 0, white the file starts at 1
 		}
 	}
 	return &multipleCursor{tokens: tokens, CurrentTokens: tokens[0], currentIndex: 0}
