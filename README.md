@@ -1,5 +1,7 @@
 # Gago | Programming Language Built in Go
 
+_if you are looking for the docs, go [here](docs/doc.md)_
+
 Gago is a _interpreted_ programming language. It is fully written in Go.
 
 Gago includes:
