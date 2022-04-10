@@ -56,5 +56,5 @@ func (mem *Memory) AccessVar(name string) (interface{}, error) {
 	if t, ok := mem.VarExists(name); ok {
 		return t.Val(), nil
 	}
-	return nil, lang.Errorf("ReferenceError", name+" is not defined.", "At variable "+name, true)
+	return nil, lang.Errorf("ReferenceError", name+" is not defined.", "", true)
 }

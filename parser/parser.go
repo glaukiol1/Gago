@@ -75,6 +75,8 @@ func (parser *Parser) Parse() {
 		for _, v := range parser.Ast {
 			if p, ok := v.(ast.VariableDeclaration); ok {
 				fmt.Println("AST Variable Declaration: ", "var name: |"+p.Vname+"| var value: |"+p.Vvalue.Val().(string)+"| variable type: |"+fmt.Sprint(p.Vtype)+"|")
+			} else if p, ok := v.(ast.VariableAccess); ok {
+				fmt.Println("AST Variable Access: Access variable: |" + p.Vname + "|")
 			}
 		}
 	}
