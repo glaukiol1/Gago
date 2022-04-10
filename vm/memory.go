@@ -11,15 +11,16 @@ import (
 // related to memory in the gago VM
 
 type Memory struct {
-	v         bool                 // verbose
-	variables map[string]lang.Type // this slice will hold all variables
-	// methods []*lang.Method TODO: add lang.Method
+	v         bool                    // verbose
+	variables map[string]lang.Type    // this map will hold all variables
+	methods   map[string]*lang.Method // this map holds all the global methods
 	// modules []*module.Module TODO: add module.Module
 }
 
 func NewMemory(v bool) *Memory {
-	m := &Memory{v: true}
-	m.variables = make(map[string]lang.Type) // initialize map
+	m := &Memory{v: true, methods: nil}
+	m.variables = make(map[string]lang.Type)  // initialize variable map
+	m.methods = make(map[string]*lang.Method) // initialize method map
 	return m
 }
 
@@ -57,4 +58,24 @@ func (mem *Memory) AccessVar(name string) (interface{}, error) {
 		return t.Val(), nil
 	}
 	return nil, lang.Errorf("ReferenceError", name+" is not defined.", "", true)
+}
+
+func (mem *Memory) LoadMethod(method *lang.Method) {
+	mem.methods[method.GetName()] = method
+}
+
+func (mem *Memory) AccessMethod(qualname string) (*lang.Method, error) {
+	if mthd, ok := mem.MethodExists(qualname); ok {
+		return mthd, nil
+	}
+	return nil, lang.Errorf("ReferenceError", qualname+" is not defined.", "", true)
+}
+
+func (mem *Memory) MethodExists(qualname string) (*lang.Method, bool) {
+	for k, v := range mem.methods {
+		if k == qualname {
+			return v, true
+		}
+	}
+	return nil, false
 }

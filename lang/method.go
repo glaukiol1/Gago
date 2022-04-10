@@ -13,15 +13,23 @@ func testgagofunction(args []lang.Type) lang.Type {
 // that it was given.
 
 type Method struct {
-	methodname string                 // the method name inside the gago script
-	gomethod   func(args []Type) Type // the method which will be called
-	doc        string                 // the doc for this function
+	qualname string                 // the method name inside the gago script
+	gomethod func(args []Type) Type // the method which will be called
+	doc      string                 // the doc for this function
 }
 
-func NewMethod(methodname string, gomethod func(args []Type) Type, doc string) *Method {
-	return &Method{methodname: methodname, gomethod: gomethod, doc: doc}
+func NewMethod(qualname string, gomethod func(args []Type) Type, doc string) *Method {
+	return &Method{qualname: qualname, gomethod: gomethod, doc: doc}
 }
 
 func (method *Method) RunMethod(args []Type) Type {
 	return method.gomethod(args)
+}
+
+func (method *Method) GetDoc() string {
+	return method.doc
+}
+
+func (method *Method) GetName() string {
+	return method.qualname
 }
