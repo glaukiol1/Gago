@@ -17,12 +17,14 @@ type Memory struct {
 }
 
 func NewMemory(v bool) *Memory {
-	return &Memory{v: true}
+	m := &Memory{v: true}
+	m.variables = make(map[string]lang.Type) // initialize map
+	return m
 }
 
 func (mem *Memory) VarCreate(name string, value interface{}) {
-	if val, ok := value.(lang.TypeString); ok {
-		mem.variables[name] = &val
+	if val, ok := value.(*lang.TypeString); ok {
+		mem.variables[name] = val
 		if mem.v {
 			fmt.Println("Added variable to memory... Name: " + name + " Value: " + val.Val().(string))
 		}

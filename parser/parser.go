@@ -22,6 +22,10 @@ func NewParser(lexer *lexer.Lexer) *Parser {
 	return &Parser{lexer: lexer, tokens: lexer.GetTokens(), error: false, errorString: "", v: lexer.GetV()}
 }
 
+func (parser *Parser) GetV() bool {
+	return parser.v
+}
+
 func (parser *Parser) sepNewlines() {
 	var local []*lexer.Token
 	for _, t := range parser.tokens {
