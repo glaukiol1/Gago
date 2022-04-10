@@ -44,9 +44,14 @@ func (vm *VM) Run() {
 	for _, v := range vm.ast {
 		if ast, ok := v.(ast.VariableDeclaration); ok {
 			if vm.v {
-				fmt.Println("Running Variable Declaration AST... Vtype: " + fmt.Sprint(ast.Vtype) + " Vname: " + fmt.Sprint(ast.Vname) + " Vvalue: " + ast.Vvalue.Val().(string))
+				fmt.Println("Running Variable Declaration AST... Vtype: "+fmt.Sprint(ast.Vtype)+" Vname: "+fmt.Sprint(ast.Vname)+" Vvalue: ", ast.Vvalue.Val())
 			}
-			vm.mem.VarCreate(ast.Vname, ast.Vvalue.(*lang.TypeString)) // FIXME: support more than just TypeString
+			if q, ok := ast.Vvalue.(*lang.TypeString); ok {
+				vm.mem.VarCreate(ast.Vname, q)
+			}
+			if q, ok := ast.Vvalue.(*lang.TypeInt); ok {
+				vm.mem.VarCreate(ast.Vname, q)
+			}
 		}
 
 		// in the future, ast.VariableAccess will just subsitute the AST with the variable value,

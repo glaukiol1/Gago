@@ -51,7 +51,7 @@ func (mem *Memory) VarCreate(name string, value interface{}) {
 	if val, ok := value.(lang.Type); ok {
 		mem.variables[name] = val
 		if mem.v {
-			fmt.Println("Added variable to memory... Name: " + name + " Value: " + val.Val().(string) + " Constant: " + strconv.FormatBool(val.IsConstant()))
+			fmt.Println("Added variable to memory... Name: "+name+" Value: ", val.Val(), " Constant: "+strconv.FormatBool(val.IsConstant()))
 		}
 	}
 }

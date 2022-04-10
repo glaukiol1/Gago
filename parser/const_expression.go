@@ -1,8 +1,12 @@
 package parser
 
 import (
+	"fmt"
+	"strconv"
+
 	"github.com/glaukiol1/gago/ast"
 	"github.com/glaukiol1/gago/lang"
+	"github.com/glaukiol1/gago/lexer"
 )
 
 // handle functions
@@ -43,9 +47,21 @@ func handle_const_expression(cursor *multipleCursor, parser *Parser) {
 	cursor.SetIndex(3) // switch to the value of the variable
 
 	// checks for variable value
-	qt := -1       // quote type, 0 for single 1 for double
-	tmpvalue := "" // hold the string value for now
-	//TODO: support more than just strings
+	var v lang.Type
+	if tokensAreString(cursor, lexer) {
+		v = tokensToGagoString(cursor, lexer)
+	} else if tokensAreInt(cursor, lexer) {
+		fmt.Println("found int")
+		v = tokensToGagoInt(cursor, lexer)
+	}
+
+	v.SetConstant(true)
+	parser.Ast = append(parser.Ast, ast.VariableDeclaration{AstType: ast.AST_TYPE_VAR_DECLARATION, Vtype: ast.VTYPE_CONST, Vname: vname, Vvalue: v})
+}
+
+// TODO: put the below functions in a new utils directory
+func tokensAreString(cursor *multipleCursor, lexer *lexer.Lexer) bool {
+	qt := 0
 	for i, t := range cursor.CurrentTokens {
 		tkntest := NewTokenTest(t, lexer)
 		if i == 0 {
@@ -56,23 +72,78 @@ func handle_const_expression(cursor *multipleCursor, parser *Parser) {
 			} else if isDq {
 				qt = 1
 			} else {
-				lang.Errorf("SyntaxError", "Unexpected indentifier, expected a `'` or `\"`", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
-				return
+				return false
 			}
 		} else if len(cursor.CurrentTokens)-1 == i {
 			isSq := tkntest.NValueIs("'")
 			isDq := tkntest.NValueIs("\"")
 			if !(isSq && qt == 0) && !(isDq && qt == 1) {
 				lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
-				return
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func tokensToGagoString(cursor *multipleCursor, lexer *lexer.Lexer) *lang.TypeString {
+	qt := 0
+	tmpvalue := ""
+	for i, t := range cursor.CurrentTokens {
+		tkntest := NewTokenTest(t, lexer)
+		if i == 0 {
+			isSq := tkntest.NValueIs("'")
+			isDq := tkntest.NValueIs("\"")
+			if isSq {
+				qt = 0
+			} else if isDq {
+				qt = 1
+			} else {
+				lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
+				return nil
+			}
+		} else if len(cursor.CurrentTokens)-1 == i {
+			isSq := tkntest.NValueIs("'")
+			isDq := tkntest.NValueIs("\"")
+			if !(isSq && qt == 0) && !(isDq && qt == 1) {
+				lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
+				return nil
 			}
 		} else {
 			tmpvalue += t.GetValue().(string)
 		}
 	}
+	return lang.String(tmpvalue)
+}
 
-	// FIXME: add more types other than string
-	const_string := lang.String(tmpvalue)
-	const_string.SetConstant(true)
-	parser.Ast = append(parser.Ast, ast.VariableDeclaration{AstType: ast.AST_TYPE_VAR_DECLARATION, Vtype: ast.VTYPE_CONST, Vname: vname, Vvalue: const_string})
+func tokensAreInt(cursor *multipleCursor, lexer *lexer.Lexer) bool {
+	for i, t := range cursor.CurrentTokens {
+		tkntest := NewTokenTest(t, lexer)
+		if i == 0 {
+			if !(tkntest.NValueIs("-") || tkntest.IsNum()) {
+				return false
+			}
+		} else {
+			if !tkntest.IsNum() {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func tokensToGagoInt(cursor *multipleCursor, lexer *lexer.Lexer) *lang.TypeInt {
+	var str string
+	for _, v := range cursor.CurrentTokens {
+		q, ok := v.GetValue().(string)
+		if !ok {
+			panic("internal error: tokenstogagoint failed")
+		}
+		str += q
+	}
+	n, err := strconv.ParseInt(str, 10, 64)
+	if err != nil {
+		panic("internal error: tokenstogagoint failed")
+	}
+	return lang.Int(n)
 }

@@ -6,3 +6,7 @@ package lang
 type TypeString struct {
 	BaseType
 }
+
+type TypeInt struct {
+	BaseType
+}
