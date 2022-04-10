@@ -1,7 +1,6 @@
 package parser
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/glaukiol1/gago/ast"
@@ -51,7 +50,6 @@ func handle_const_expression(cursor *multipleCursor, parser *Parser) {
 	if tokensAreString(cursor, lexer) {
 		v = tokensToGagoString(cursor, lexer)
 	} else if tokensAreInt(cursor, lexer) {
-		fmt.Println("found int")
 		v = tokensToGagoInt(cursor, lexer)
 	}
 

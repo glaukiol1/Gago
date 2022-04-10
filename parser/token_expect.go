@@ -1,9 +1,6 @@
 package parser
 
 import (
-	"fmt"
-	"reflect"
-
 	"github.com/glaukiol1/gago/lang"
 	"github.com/glaukiol1/gago/lexer"
 )
@@ -70,6 +67,5 @@ func (tt *tokentester) NValueIs(checkv interface{}) bool {
 }
 
 func (tt *tokentester) IsNum() bool {
-	fmt.Println(reflect.TypeOf(tt.token.GetValue()))
 	return true
 }
