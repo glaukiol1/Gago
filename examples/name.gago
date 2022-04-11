@@ -1,0 +1,2 @@
+const name = call input("whats your name? ")
+call print("your name is", name)

@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"path"
 
@@ -41,25 +42,16 @@ func run(filename string, v bool) {
 		fmt.Println("fatal error: getting current working directory failed...")
 		os.Exit(1)
 	}
-	file, err := os.Open(path.Join(cwd, filename))
+	content, err := os.ReadFile(path.Join(cwd, filename))
 	if err != nil {
-		fmt.Println("error while opening file...", err.Error())
-		os.Exit(1)
+		log.Fatal(err)
 	}
-	var fl []byte
-	n, err := file.Read(fl)
-	if err != nil {
-		fmt.Println("error while reading file...", err.Error())
-		os.Exit(1)
-	}
-	if v {
-		fmt.Println("read", n, "bytes")
-	}
-	runfile(string(fl), v)
+	runfile(string(content), filename, v)
 }
 
-func runfile(filecontents string, v bool) {
-	lex := lexer.TestLex(v)
+func runfile(filecontents string, flname string, v bool) {
+	lex := lexer.NewLex(filecontents, flname, v)
+	lex.Lex()
 	parse := parser.NewParser(lex)
 	parse.Parse()
 	vm := vm.NewVM(parse)
