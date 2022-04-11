@@ -36,7 +36,7 @@ type VM struct {
 
 func NewVM(parser *parser.Parser) *VM {
 	mem := NewMemory(parser.GetV())
-	mem.Init(&lang.Options{Stdout: os.Stdout})
+	mem.Init(&lang.Options{Stdout: os.Stdout, Stdin: os.Stdin})
 	return &VM{v: parser.GetV(), mem: mem, ast: parser.Ast, stdout: os.Stdout}
 }
 
@@ -106,7 +106,7 @@ func (vm *VM) Run() {
 			if err != nil {
 				err.(*lang.BaseError).Run()
 			}
-			mthd.RunMethod(args, &lang.Options{Stdout: os.Stdout})
+			mthd.RunMethod(args, vm.mem.opts)
 		}
 	}
 }

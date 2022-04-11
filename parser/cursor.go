@@ -40,12 +40,14 @@ func (cursor *multipleCursor) SetIndex(index int) {
 }
 
 // join all from will join all from the specified index
-func (cursor *multipleCursor) JoinAllFrom(indx int) []*lexer.Token {
+func (cursor *multipleCursor) JoinAllFrom(indx int, sep string) []*lexer.Token {
 	var rtrn []*lexer.Token
 	flag := false
+	sepToken := lexer.NewToken(sep, cursor.CurrentTokens[0].GetLine())
 	for i, v := range cursor.tokens {
 		if i == indx || flag {
 			flag = true
+			rtrn = append(rtrn, sepToken)
 			rtrn = append(rtrn, v...)
 		}
 	}

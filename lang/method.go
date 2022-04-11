@@ -22,6 +22,7 @@ type Method struct {
 
 type Options struct {
 	Stdout *os.File
+	Stdin  *os.File
 }
 
 func NewMethod(qualname string, gomethod func(args []Type, opts *Options) Type, doc string) *Method {

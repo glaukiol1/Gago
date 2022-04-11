@@ -18,7 +18,7 @@ import (
 // if its a literal, subsitute it with a newly created ast.Literal
 
 func handle_call_expression(cursor *multipleCursor, parser *Parser) {
-	tkns := cursor.JoinAllFrom(1) // join all tokens since the `call` keyword
+	tkns := cursor.JoinAllFrom(1, " ") // join all tokens since the `call` keyword
 	ok := false
 	idx := 0
 	funcname := ""
@@ -28,7 +28,9 @@ func handle_call_expression(cursor *multipleCursor, parser *Parser) {
 		f := tkntest.NValueIs("(")
 
 		if !f {
-			funcname += t.GetValue().(string)
+			if !tkntest.NValueIs(" ") {
+				funcname += t.GetValue().(string)
+			}
 		} else {
 			ok = true
 			idx = i
@@ -70,6 +72,7 @@ func handle_call_expression(cursor *multipleCursor, parser *Parser) {
 		}
 		rargs := strings.Split(rawargs, ",")
 		for _, v := range rargs {
+			v = strings.TrimSpace(v)
 			if isValidString(v, parser.lexer, tkns[0]) {
 				st := utils.GoStrToGagoStr(v)
 				args = append(args, ast.Literal{AstType: ast.AST_TYPE_LITERAL, Value: st})
