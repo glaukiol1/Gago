@@ -17,8 +17,37 @@ import (
 // will subsitute variables inside the () with VariableAccess ast
 // if its a literal, subsitute it with a newly created ast.Literal
 
-func nhandle_call_expression(cursor *multipleCursor, parser *Parser) interface{} {
-	tkns := cursor.JoinAllFrom(1, " ") // join all tokens since the `call` keyword
+func nhandle_call_expression(cursor *multipleCursor, parser *Parser, l bool) interface{} {
+	var tkns []*lexer.Token
+	if !l {
+		tkns = cursor.JoinAllFrom(1, " ") // join all tokens since the `call` keyword
+	} else {
+		tkns = cursor.JoinAllFrom(0, " ")
+		i := 0
+		// this loop removes all leading whitespaces
+		for {
+			if tkns[i].IsWhitespace() {
+				i += 1
+			} else {
+				break
+			}
+		}
+		//
+		tkns = tkns[i:] // new array where the whitespace leading tokens are removed
+
+		i = 0
+
+		// this loop removes the call keyword
+		for {
+			if !tkns[i].IsWhitespace() {
+				i += 1
+			} else {
+				break
+			}
+		}
+		//
+		tkns = tkns[i:] // new array where the call keyword is removed
+	}
 	ok := false
 	idx := 0
 	funcname := ""
@@ -26,7 +55,6 @@ func nhandle_call_expression(cursor *multipleCursor, parser *Parser) interface{}
 		tkntest := NewTokenTest(t, parser.lexer)
 
 		f := tkntest.NValueIs("(")
-
 		if !f {
 			if !tkntest.NValueIs(" ") {
 				funcname += t.GetValue().(string)
@@ -80,7 +108,18 @@ func nhandle_call_expression(cursor *multipleCursor, parser *Parser) interface{}
 				it := utils.GoStrToGagoInt(v)
 				args = append(args, ast.Literal{AstType: ast.AST_TYPE_LITERAL, Value: it})
 			} else {
-				args = append(args, ast.VariableAccess{AstType: ast.AST_TYPE_VARIABLE_ACCESS, Vname: v})
+				if strings.HasPrefix(v, "call ") {
+					var _c []*lexer.Token
+					for i, c := range v {
+						tkn := lexer.NewToken(string(c), i)
+						_c = append(_c, tkn)
+					}
+					s := make([][]*lexer.Token, 1)
+					s[0] = _c
+					args = append(args, nhandle_call_expression(newMultipleCursor(s, tkns[0].GetLine()), parser, true))
+				} else {
+					args = append(args, ast.VariableAccess{AstType: ast.AST_TYPE_VARIABLE_ACCESS, Vname: v})
+				}
 			}
 		}
 	}
@@ -89,7 +128,7 @@ func nhandle_call_expression(cursor *multipleCursor, parser *Parser) interface{}
 }
 
 func handle_call_expression(cursor *multipleCursor, parser *Parser) {
-	parser.Ast = append(parser.Ast, nhandle_call_expression(cursor, parser))
+	parser.Ast = append(parser.Ast, nhandle_call_expression(cursor, parser, false))
 }
 
 // TODO: move these functions to a new utils directory

@@ -30,7 +30,7 @@ func (mem *Memory) LoadBuiltins() {
 	bmodule := builtins.FBuilitins(mem.opts.Stdout)
 	for k, v := range bmodule.GetGlobals() {
 		if mem.v {
-			fmt.Println("global builtin: k: |" + k + "| v: |" + v.Val().(string) + "|")
+			fmt.Println("global builtin: k: |"+k+"| v: |", v.Val(), "|")
 		}
 		mem.VarCreate(k, v)
 	}

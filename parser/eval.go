@@ -26,7 +26,7 @@ func evaltokens(cursor *multipleCursor, parser *Parser) interface{} {
 			if parser.v {
 				fmt.Println("found call statement assignment")
 			}
-			return nhandle_call_expression(cursor, parser)
+			return nhandle_call_expression(cursor, parser, false)
 		}
 	}
 	lang.Errorf("SyntaxError", "Unknown expression type.", lang.BuildStack(cursor.CurrentTokens[len(cursor.CurrentTokens)-1], parser.lexer.GetFilename()), true).Run()
