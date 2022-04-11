@@ -12,11 +12,12 @@ Gago includes:
 - Module implementation
 - Easy embedding into your Go application
 
-The gago standard library is not yet written. (as of v0.2-alpha)
+The gago standard library is not yet written. (as of v0.3-alpha)
 
-The gago builtins module: (as of v0.2-alpha)
+The gago builtins module: (as of v0.3-alpha)
 
 - `print(args...)` type: function. Doc: `prints the specified values seperated by a space`
+- `input` type: function. Doc `gets input from stdin until newline`
 - `teststring` type: global variable. Use: `testing purposes`
 
 ## Install
@@ -25,13 +26,13 @@ Download from the [releases page](https://github.com/glaukiol1/gago/releases)
 
 ## Objectives
 
-Gago started as an experiment to find out how hard it would be to build a programming language in Go. With all the standard library written in Go, it would be aster than many programming languages, such as Python.
+Gago started as an experiment to find out how hard it would be to build a programming language in Go. With all the standard library written in Go, it would be faster than many programming languages, such as Python.
 
 It can also be used as a wrapper around Go, since any Gago expression can be written in Go.
 
 ## Status
 
-_As of `v0.2-alpha`_
+_As of `v0.3-alpha`_
 
 gago currently:
 
