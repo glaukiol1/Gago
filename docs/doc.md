@@ -28,6 +28,16 @@ const helloworld = "Hello World"
 var helloworld = "Hello World"
 ```
 
+#### Assigning a variable to a function result
+
+You can assign functions like any other result.
+
+```js
+const name = call input("enter your name: ")
+```
+
+the variable name now has the value of whatever input() returned.
+
 ### Calling functions
 
 To call a function, you would do it like in most languages, but you need to add the `call` keyword in the beginning of the expression.
