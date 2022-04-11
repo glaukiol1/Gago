@@ -1,6 +1,8 @@
 package parser
 
 import (
+	"strconv"
+
 	"github.com/glaukiol1/gago/lang"
 	"github.com/glaukiol1/gago/lexer"
 )
@@ -67,5 +69,7 @@ func (tt *tokentester) NValueIs(checkv interface{}) bool {
 }
 
 func (tt *tokentester) IsNum() bool {
-	return true
+	v, _ := tt.token.GetValue().(string)
+	_, err := strconv.ParseInt(v, 10, 64)
+	return err == nil
 }

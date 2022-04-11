@@ -6,6 +6,7 @@ package builtins
 import (
 	"bufio"
 	"fmt"
+	"strings"
 
 	"github.com/glaukiol1/gago/lang"
 )
@@ -24,6 +25,7 @@ func input(args []lang.Type, opt *lang.Options) lang.Type {
 	if err != nil {
 		fmt.Println("internal error: failed to read from stdin")
 	}
+	str = strings.TrimSuffix(str, "\n")
 	return lang.String(str)
 }
 

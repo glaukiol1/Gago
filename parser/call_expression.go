@@ -17,7 +17,7 @@ import (
 // will subsitute variables inside the () with VariableAccess ast
 // if its a literal, subsitute it with a newly created ast.Literal
 
-func handle_call_expression(cursor *multipleCursor, parser *Parser) {
+func nhandle_call_expression(cursor *multipleCursor, parser *Parser) interface{} {
 	tkns := cursor.JoinAllFrom(1, " ") // join all tokens since the `call` keyword
 	ok := false
 	idx := 0
@@ -85,7 +85,11 @@ func handle_call_expression(cursor *multipleCursor, parser *Parser) {
 		}
 	}
 
-	parser.Ast = append(parser.Ast, ast.FuncCall{AstType: ast.AST_TYPE_FUNC_CALL, Funcname: funcname, Args: args})
+	return ast.FuncCall{AstType: ast.AST_TYPE_FUNC_CALL, Funcname: funcname, Args: args}
+}
+
+func handle_call_expression(cursor *multipleCursor, parser *Parser) {
+	parser.Ast = append(parser.Ast, nhandle_call_expression(cursor, parser))
 }
 
 // TODO: move these functions to a new utils directory

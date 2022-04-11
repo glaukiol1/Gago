@@ -43,13 +43,16 @@ func handle_const_expression(cursor *multipleCursor, parser *Parser) {
 	cursor.SetIndex(3) // switch to the value of the variable
 
 	// checks for variable value
-	var v lang.Type
+	var v interface{}
 	if tokensAreString(cursor, lexer) {
 		v = tokensToGagoString(cursor, lexer)
 	} else if tokensAreInt(cursor, lexer) {
 		v = tokensToGagoInt(cursor, lexer)
+	} else {
+		// check for expression type
+		cursor.JoinAllFrom(3, " ")
+		v = evaltokens(cursor, parser)
 	}
 
-	v.SetConstant(true)
 	parser.Ast = append(parser.Ast, ast.VariableDeclaration{AstType: ast.AST_TYPE_VAR_DECLARATION, Vtype: ast.VTYPE_CONST, Vname: vname, Vvalue: v})
 }

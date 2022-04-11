@@ -8,6 +8,7 @@ type multipleCursor struct {
 	CurrentTokens []*lexer.Token   // currentToken
 	currentIndex  int              // index of current token
 	tokens        [][]*lexer.Token // all tokens
+	linepos       int              // line position
 }
 
 // init a new cursor
@@ -18,7 +19,7 @@ func newMultipleCursor(tokens [][]*lexer.Token, linepos int) *multipleCursor {
 			z.SetLine(linepos + 1) // +1 because the index starts at 0, white the file starts at 1
 		}
 	}
-	return &multipleCursor{tokens: tokens, CurrentTokens: tokens[0], currentIndex: 0}
+	return &multipleCursor{tokens: tokens, CurrentTokens: tokens[0], currentIndex: 0, linepos: linepos}
 }
 
 // switch to the next set of tokens
@@ -52,6 +53,10 @@ func (cursor *multipleCursor) JoinAllFrom(indx int, sep string) []*lexer.Token {
 		}
 	}
 	return rtrn
+}
+
+func (cursor *multipleCursor) SubCursor(indx int) *multipleCursor {
+	return newMultipleCursor(cursor.tokens[indx:], cursor.linepos)
 }
 
 func (cursor *multipleCursor) Before() {

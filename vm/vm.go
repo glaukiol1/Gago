@@ -3,6 +3,7 @@ package vm
 import (
 	"fmt"
 	"os"
+	"reflect"
 
 	"github.com/glaukiol1/gago/ast"
 	"github.com/glaukiol1/gago/lang"
@@ -42,15 +43,44 @@ func NewVM(parser *parser.Parser) *VM {
 
 func (vm *VM) Run() {
 	for _, v := range vm.ast {
-		if ast, ok := v.(ast.VariableDeclaration); ok {
+		if _ast, ok := v.(ast.VariableDeclaration); ok {
 			if vm.v {
-				fmt.Println("Running Variable Declaration AST... Vtype: "+fmt.Sprint(ast.Vtype)+" Vname: "+fmt.Sprint(ast.Vname)+" Vvalue: ", ast.Vvalue.Val())
+				fmt.Println("Running Variable Declaration AST... Vtype: "+fmt.Sprint(_ast.Vtype)+" Vname: "+fmt.Sprint(_ast.Vname)+" Vvalue: ", _ast.Vvalue)
 			}
-			if q, ok := ast.Vvalue.(*lang.TypeString); ok {
-				vm.mem.VarCreate(ast.Vname, q)
+			if q, ok := _ast.Vvalue.(*lang.TypeString); ok {
+				q.SetConstant(_ast.Vtype == 1)
+				vm.mem.VarCreate(_ast.Vname, q)
 			}
-			if q, ok := ast.Vvalue.(*lang.TypeInt); ok {
-				vm.mem.VarCreate(ast.Vname, q)
+			if q, ok := _ast.Vvalue.(*lang.TypeInt); ok {
+				q.SetConstant(_ast.Vtype == 1)
+				vm.mem.VarCreate(_ast.Vname, q)
+			}
+			if q, ok := _ast.Vvalue.(ast.FuncCall); ok {
+				mthd, err := vm.mem.AccessMethod(q.Funcname)
+				if err != nil {
+					err.(*lang.BaseError).Run()
+				}
+				var args []lang.Type
+
+				// TODO: add a eval function, because this loop can be endless
+				// because a function be nested into a function...
+				for _, arg := range q.Args {
+					if vm.v {
+						fmt.Println("typeof of func arg", reflect.TypeOf(arg).String())
+					}
+					if q, ok := arg.(*lang.TypeString); ok {
+						args = append(args, q)
+					}
+					if q, ok := arg.(*lang.TypeInt); ok {
+						args = append(args, q)
+					}
+					if q, ok := arg.(ast.Literal); ok {
+						args = append(args, q.Value)
+					}
+				}
+				result := mthd.RunMethod(args, vm.mem.opts)
+				result.SetConstant(_ast.Vtype == 1)
+				vm.mem.VarCreate(_ast.Vname, result)
 			}
 		}
 
