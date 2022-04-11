@@ -26,7 +26,7 @@ func print(args []lang.Type, opt *lang.Options) lang.Type {
 	}
 	outtxt += "\n"
 	opt.Stdout.Write([]byte(outtxt))
-	return &lang.Null
+	return lang.Null
 }
 
 var mprint = lang.NewMethod("print", print, "prints the specified values seperated by a space")

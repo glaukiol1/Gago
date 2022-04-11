@@ -16,5 +16,6 @@ func FBuilitins(stdout *os.File) *module.Module {
 	methods["print"] = mprint
 	methods["input"] = minput
 	globals["teststring"] = lang.String("hello world!") // test exporting builtins
+	globals["null"] = lang.Null
 	return module.NewModule("builtins", methods, globals)
 }

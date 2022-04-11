@@ -31,7 +31,7 @@ func eval(_ast ast.VariableDeclaration, vm *VM) lang.Type {
 		}
 		return v
 	}
-	return &lang.Null
+	return lang.Null
 }
 
 func evalfunc(fc ast.FuncCall, vm *VM) lang.Type {

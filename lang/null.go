@@ -1,7 +1,7 @@
 package lang
 
-type null struct {
+type NullType struct {
 	BaseType
 }
 
-var Null = null{BaseType: BaseType{Typename: "null", Value: nil, Constant: true}}
+var Null = &NullType{BaseType: BaseType{Typename: "null", Value: nil, Constant: true}}
