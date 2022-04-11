@@ -51,3 +51,30 @@ call print("hello world!")
 This would print out `hello world!` in the terminal.
 
 `print` accepts as many arguments as you like, they will be printed out seperated by a space.
+
+An example of taking input from the user
+
+```js
+call input("enter your name ")
+```
+
+You can also store the result value of a function in a variable, like so:
+
+```js
+const name = call input("enter your name ")
+```
+
+You can then print the value, like so
+
+```js
+const name = call input("enter your name ")
+call print("your name is", name)
+// examples/name.gago
+```
+
+A more compact example of this would be
+
+```js
+call print("your name is", call input("enter your name "))
+// examples/v0.4name.gago
+```
