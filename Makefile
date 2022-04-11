@@ -13,4 +13,7 @@ example1:
 example2:
 	echo "\n\n\n\033[95mrunning name example... (v0.4-alpha)\033[0m"
 	./gago run --file examples/v0.4name.gago
+example3:
+	echo "\n\n\n\033[95mrunning sleep example... (v0.4-alpha)\033[0m"
+	./gago run --file examples/sleep.gago
 
