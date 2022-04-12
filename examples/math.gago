@@ -1,7 +1,5 @@
 const num1 = 10
 const num2 = 20
-const result = num1+num2+10
-call print("10+20+10", result)
-const num3 = 10
-const result2 = num3/7
-call print("10/7", result2)
+call print("num1 + num2", num1 + num2)
+call print("num1 / num2", num1 / num2)
+call print("num1 ^ num2", num1 ^ num2)
