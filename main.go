@@ -9,6 +9,7 @@ import (
 
 	lexer "github.com/glaukiol1/gago/lexer"
 	"github.com/glaukiol1/gago/parser"
+	"github.com/glaukiol1/gago/repl"
 	"github.com/glaukiol1/gago/vm"
 )
 
@@ -19,6 +20,10 @@ func main() {
 	runCmd := flag.NewFlagSet("run", flag.ExitOnError)
 	runFile := runCmd.String("file", "", "file")
 	runV := runCmd.Bool("v", false, "file")
+
+	if len(os.Args) == 1 {
+		repl.Start("v0.5-alpha")
+	}
 
 	if len(os.Args) < 2 {
 		fmt.Println("expected 'run' subcommand")

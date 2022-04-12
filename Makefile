@@ -34,3 +34,6 @@ example6:
 	make build
 	echo "\n\n\n\033[95mrunning null example...\033[0m"
 	./gago run --file examples/null.gago
+xrepl:
+	make build
+	./gago

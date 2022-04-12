@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -10,36 +11,22 @@ import (
 
 // utils specific to the parser
 
-func tokensAreString(cursor *multipleCursor, lexer *lexer.Lexer) bool {
+func tokensString(cursor *multipleCursor, lexer *lexer.Lexer) (lang.Type, bool) {
 	qt := 0
-	for i, t := range cursor.CurrentTokens {
-		tkntest := NewTokenTest(t, lexer)
-		if i == 0 {
-			isSq := tkntest.NValueIs("'")
-			isDq := tkntest.NValueIs("\"")
-			if isSq {
-				qt = 0
-			} else if isDq {
-				qt = 1
-			} else {
-				return false
-			}
-		} else if len(cursor.CurrentTokens)-1 == i {
-			isSq := tkntest.NValueIs("'")
-			isDq := tkntest.NValueIs("\"")
-			if !(isSq && qt == 0) && !(isDq && qt == 1) {
-				lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
-				return false
-			}
+	tkns := cursor.JoinAllFrom(3, " ")
+	tmpvalue := ""
+	i := 0
+	// this loop removes all leading whitespaces
+	for {
+		if tkns[i].IsWhitespace() {
+			i += 1
+		} else {
+			break
 		}
 	}
-	return true
-}
-
-func tokensToGagoString(cursor *multipleCursor, lexer *lexer.Lexer) *lang.TypeString {
-	qt := 0
-	tmpvalue := ""
-	for i, t := range cursor.CurrentTokens {
+	//
+	tkns = tkns[i:] // new array where the whitespace leading tokens are removed
+	for i, t := range tkns {
 		tkntest := NewTokenTest(t, lexer)
 		if i == 0 {
 			isSq := tkntest.NValueIs("'")
@@ -49,21 +36,21 @@ func tokensToGagoString(cursor *multipleCursor, lexer *lexer.Lexer) *lang.TypeSt
 			} else if isDq {
 				qt = 1
 			} else {
-				lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
-				return nil
+				return nil, false
 			}
-		} else if len(cursor.CurrentTokens)-1 == i {
+		} else if len(tkns)-1 == i {
 			isSq := tkntest.NValueIs("'")
 			isDq := tkntest.NValueIs("\"")
 			if !(isSq && qt == 0) && !(isDq && qt == 1) {
-				lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
-				return nil
+				fmt.Println("errored on", t.GetValue())
+				lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(tkns[i], lexer.GetFilename()), true).Run()
+				return nil, false
 			}
 		} else {
 			tmpvalue += t.GetValue().(string)
 		}
 	}
-	return lang.String(tmpvalue)
+	return lang.String(tmpvalue), true
 }
 
 func tokensAreInt(cursor *multipleCursor, lexer *lexer.Lexer) bool {

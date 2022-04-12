@@ -38,8 +38,8 @@ func vhandler(cursor *multipleCursor, parser *Parser, vtype int) ast.VariableDec
 
 	// checks for variable value
 	var v interface{}
-	if tokensAreString(cursor, lexer) {
-		v = tokensToGagoString(cursor, lexer)
+	if s, ok := tokensString(cursor, parser.lexer); ok {
+		v = s
 	} else if tokensAreInt(cursor, lexer) {
 		v = tokensToGagoInt(cursor, lexer)
 	} else if tokensAreFloat(cursor, lexer) {

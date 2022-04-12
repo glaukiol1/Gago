@@ -69,7 +69,9 @@ func (parser *Parser) Parse() {
 		}
 		rmvd, _ := parser.removeTrailingSpaces(newline_sep_tokens)
 		whitespace_sep_tokens := parser.sepWhiteSpaces(rmvd)
-		parser.parsenewlineTokens(newMultipleCursor(whitespace_sep_tokens, linepos))
+		if len(whitespace_sep_tokens) != 0 {
+			parser.parsenewlineTokens(newMultipleCursor(whitespace_sep_tokens, linepos))
+		}
 	}
 	if parser.v {
 		for _, v := range parser.Ast {

@@ -72,3 +72,7 @@ func (vm *VM) Run() {
 		}
 	}
 }
+
+func (vm *VM) SetAST(ast []interface{}) {
+	vm.ast = ast
+}
