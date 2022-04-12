@@ -26,3 +26,7 @@ example4:
 	make build
 	echo "\n\n\n\033[95mrunning math example...\033[0m"
 	./gago run --file examples/math.gago
+example5:
+	make build
+	echo "\n\n\n\033[95mrunning float example...\033[0m"
+	./gago run --file examples/float.gago

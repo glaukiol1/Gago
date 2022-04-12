@@ -22,6 +22,10 @@ func eval(_ast ast.VariableDeclaration, vm *VM) lang.Type {
 		q.SetConstant(_ast.Vtype == 1)
 		return q
 	}
+	if q, ok := _ast.Vvalue.(*lang.TypeFloat); ok {
+		q.SetConstant(_ast.Vtype == 1)
+		return q
+	}
 	if q, ok := _ast.Vvalue.(ast.FuncCall); ok {
 		v := evalfunc(q, vm)
 		v.SetConstant(_ast.Vtype == 1)
@@ -59,6 +63,9 @@ func evalfunc(fc ast.FuncCall, vm *VM) lang.Type {
 		if q, ok := arg.(*lang.TypeInt); ok {
 			args = append(args, q)
 		}
+		if q, ok := arg.(*lang.TypeFloat); ok {
+			args = append(args, q)
+		}
 		if q, ok := arg.(ast.Literal); ok {
 			args = append(args, q.Value)
 		}
@@ -91,6 +98,13 @@ func evalMathExpr(s string, vm *VM) lang.Type {
 			if vm.v {
 				fmt.Println("parsing variable into math expression...")
 			}
+			args[k] = q
+		}
+		if q, ok := v.Val().(float64); ok {
+			if vm.v {
+				fmt.Println("parsing variable into math expression...")
+			}
+			fmt.Println("parsed float64 "+k, q)
 			args[k] = q
 		}
 	}

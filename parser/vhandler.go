@@ -42,6 +42,8 @@ func vhandler(cursor *multipleCursor, parser *Parser, vtype int) ast.VariableDec
 		v = tokensToGagoString(cursor, lexer)
 	} else if tokensAreInt(cursor, lexer) {
 		v = tokensToGagoInt(cursor, lexer)
+	} else if tokensAreFloat(cursor, lexer) {
+		v = tokensToFloat(cursor, lexer)
 	} else {
 		// check for expression type
 		cursor.JoinAllFrom(3, " ")

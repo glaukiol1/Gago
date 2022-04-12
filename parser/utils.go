@@ -2,6 +2,7 @@ package parser
 
 import (
 	"strconv"
+	"strings"
 
 	"github.com/glaukiol1/gago/lang"
 	"github.com/glaukiol1/gago/lexer"
@@ -95,4 +96,46 @@ func tokensToGagoInt(cursor *multipleCursor, lexer *lexer.Lexer) *lang.TypeInt {
 		panic("internal error: tokenstogagoint failed")
 	}
 	return lang.Int(n)
+}
+
+// checks if cursor.CurrentTokens can represent a float
+func tokensAreFloat(cursor *multipleCursor, lexer *lexer.Lexer) bool {
+	var str string
+	for _, v := range cursor.CurrentTokens {
+		q, ok := v.GetValue().(string)
+		if !ok {
+			panic("internal error: tokenstogagoint failed")
+		}
+		str += q
+	}
+	dotsplit := strings.Split(str, ".")
+	if len(dotsplit) != 2 {
+		return false
+	}
+	_, err := strconv.ParseInt(dotsplit[0], 10, 64)
+	if err != nil {
+		return false
+	}
+	_, err = strconv.ParseInt(dotsplit[1], 10, 64)
+	if err != nil {
+		return false
+	}
+	_, err = strconv.ParseFloat(str, 64)
+	return err == nil
+}
+
+func tokensToFloat(cursor *multipleCursor, lexer *lexer.Lexer) *lang.TypeFloat {
+	var str string
+	for _, v := range cursor.CurrentTokens {
+		q, ok := v.GetValue().(string)
+		if !ok {
+			panic("internal error: tokenstogagoint failed")
+		}
+		str += q
+	}
+	n, err := strconv.ParseFloat(str, 64)
+	if err != nil {
+		panic("internal error: failed to parse float in tokensToFloat")
+	}
+	return lang.Float(n)
 }

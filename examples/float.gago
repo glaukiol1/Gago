@@ -1,0 +1,6 @@
+const fl = 10.123456
+call print("in Gago floats have a percision of 6 decimal points")
+call print("fl =", fl)
+call print("fl+10 =", fl+10)
+call print("fl*2 =", fl*2)
+call print("fl**2 =", 10**2)

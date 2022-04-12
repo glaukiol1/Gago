@@ -98,7 +98,7 @@ func nhandle_call_expression(cursor *multipleCursor, parser *Parser, l bool) int
 		if parser.v {
 			fmt.Println("rawargs |" + rawargs + "|")
 		}
-		rargs := strings.Split(rawargs, ",")
+		rargs := strings.Split(rawargs, ",") // TODO: this will split it even in the middle of a literal, fix this.
 		for _, v := range rargs {
 			v = strings.TrimSpace(v)
 			if isValidString(v, parser.lexer, tkns[0]) {
