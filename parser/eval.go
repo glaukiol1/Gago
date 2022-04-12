@@ -7,7 +7,6 @@ import (
 
 	"github.com/Knetic/govaluate"
 	"github.com/glaukiol1/gago/ast"
-	"github.com/glaukiol1/gago/lang"
 )
 
 // this file will include functions to evaluate a expression
@@ -44,10 +43,12 @@ func evaltokens(cursor *multipleCursor, parser *Parser) interface{} {
 				fmt.Println("found math expression")
 			}
 			return evalMathExpr(chars)
+		} else {
+			return ast.VariableAccess{AstType: ast.AST_TYPE_VARIABLE_ACCESS, Vname: chars}
 		}
 	}
-	lang.Errorf("SyntaxError", "Unknown expression type.", lang.BuildStack(cursor.CurrentTokens[len(cursor.CurrentTokens)-1], parser.lexer.GetFilename()), true).Run()
-	return nil
+	// lang.Errorf("SyntaxError", "Unknown expression type.", lang.BuildStack(cursor.CurrentTokens[len(cursor.CurrentTokens)-1], parser.lexer.GetFilename()), true).Run()
+	// return nil
 }
 
 // evaluate if expr is math expression

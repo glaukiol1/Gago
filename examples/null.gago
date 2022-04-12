@@ -1,0 +1,2 @@
+const n = null
+call print("value of null (n)", n)

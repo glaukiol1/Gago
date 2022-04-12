@@ -30,3 +30,7 @@ example5:
 	make build
 	echo "\n\n\n\033[95mrunning float example...\033[0m"
 	./gago run --file examples/float.gago
+example6:
+	make build
+	echo "\n\n\n\033[95mrunning null example...\033[0m"
+	./gago run --file examples/null.gago
