@@ -7,6 +7,10 @@ type TypeString struct {
 	BaseType
 }
 
+type NullType struct {
+	BaseType
+}
+
 type TypeInt struct {
 	BaseType
 }
