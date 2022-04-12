@@ -97,12 +97,35 @@ const num1 = 10
 const num2 = 20
 call print("num1 + num2", num1 + num2)
 call print("num1 / num2", num1 / num2)
-call print("num1 ^ num2", num1 ^ num2)
+call print("num1 ** num2", num1 ^ num2)
 
 // output
 /*
 num1 + num2 30
 num1 / num2 0.500000
-num1 ^ num2 30
+num1 ** num2 -9223372036854775808
 */
 ```
+
+Now you might ask, why is the output of `num1 ** num2` (num1 raised to the power of num2) `-9223372036854775808`. Well, it is because the actual value of `num1 ** num2` is more than the max value of `int64`. This is called a integer overflow, which causes the value to wrap and become negative.
+
+You can also use math with the `float` datatype. A simple example would be
+
+```js
+// examples/float.gago
+const fl = 10.123456
+call print("fl =", fl)
+call print("fl+10 =", fl+10)
+call print("fl*2 =", fl*2)
+call print("fl**2 =", fl**2)
+
+// output
+/*
+fl = 10.123456
+fl+10 = 20.123456
+fl*2 = 20.246912
+fl**2 = 102.484361
+*/
+```
+
+In Gago, floats have a percision of 6. Which means that there can be 6 integers after the decimal point. If there are more than 6, it is rounded.
