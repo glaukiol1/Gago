@@ -6,9 +6,9 @@ import (
 )
 
 // handle functions
-// where the parser found the KEYWORD_VAR code pattern
+// where the parser found the KEYWORD_CONST code pattern
 
-// base function for handling var expressions
+// base function for handling const expressions
 
 // rules for variable names
 //	* Must START with a character
@@ -43,36 +43,16 @@ func handle_var_expression(cursor *multipleCursor, parser *Parser) {
 	cursor.SetIndex(3) // switch to the value of the variable
 
 	// checks for variable value
-	qt := -1       // quote type, 0 for single 1 for double
-	tmpvalue := "" // hold the string value for now
-	//TODO: support more than just strings
-	for i, t := range cursor.CurrentTokens {
-		tkntest := NewTokenTest(t, lexer)
-		if i == 0 {
-			isSq := tkntest.NValueIs("'")
-			isDq := tkntest.NValueIs("\"")
-			if isSq {
-				qt = 0
-			} else if isDq {
-				qt = 1
-			} else {
-				lang.Errorf("SyntaxError", "Unexpected indentifier, expected a `'` or `\"`", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
-				return
-			}
-		} else if len(cursor.CurrentTokens)-1 == i {
-			isSq := tkntest.NValueIs("'")
-			isDq := tkntest.NValueIs("\"")
-			if !(isSq && qt == 0) && !(isDq && qt == 1) {
-				lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
-				return
-			}
-		} else {
-			tmpvalue += t.GetValue().(string)
-		}
+	var v interface{}
+	if tokensAreString(cursor, lexer) {
+		v = tokensToGagoString(cursor, lexer)
+	} else if tokensAreInt(cursor, lexer) {
+		v = tokensToGagoInt(cursor, lexer)
+	} else {
+		// check for expression type
+		cursor.JoinAllFrom(3, " ")
+		v = evaltokens(cursor, parser)
 	}
 
-	// FIXME: add more types other than string
-	var_string := lang.String(tmpvalue)
-	var_string.SetConstant(true)
-	parser.Ast = append(parser.Ast, ast.VariableDeclaration{AstType: ast.AST_TYPE_VAR_DECLARATION, Vtype: ast.VTYPE_VAR, Vname: vname, Vvalue: lang.String(tmpvalue)})
+	parser.Ast = append(parser.Ast, ast.VariableDeclaration{AstType: ast.AST_TYPE_VAR_DECLARATION, Vtype: ast.VTYPE_VAR, Vname: vname, Vvalue: v})
 }
