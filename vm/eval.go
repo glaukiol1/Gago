@@ -2,7 +2,9 @@ package vm
 
 import (
 	"fmt"
+	"math"
 	"reflect"
+	"strings"
 
 	"github.com/Knetic/govaluate"
 	"github.com/glaukiol1/gago/ast"
@@ -97,6 +99,18 @@ func evalMathExpr(s string, vm *VM) lang.Type {
 		fmt.Println("error while parsing math expression..", err.Error())
 		return lang.Null
 	}
+	r := result.(float64)
+	if decimalPortion(r) == 0 {
+		return lang.Int(int64(r))
+	} else {
+		return lang.Float(r)
+	}
+}
 
-	return lang.Float(result.(float64))
+// find out how many decimals a float64 has
+func decimalPortion(n float64) int {
+	decimalPlaces := fmt.Sprintf("%f", n-math.Floor(n))          // produces 0.xxxx0000
+	decimalPlaces = strings.Replace(decimalPlaces, "0.", "", -1) // remove 0.
+	decimalPlaces = strings.TrimRight(decimalPlaces, "0")        // remove trailing 0s
+	return len(decimalPlaces)
 }

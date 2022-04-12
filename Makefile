@@ -8,12 +8,18 @@ test:
 	make build
 	./gago run --file examples/test.gago --v
 example1:
+	make build
 	echo "\n\n\n\033[95mrunning name example...\033[0m"
 	./gago run --file examples/name.gago
 example2:
+	make build
 	echo "\n\n\n\033[95mrunning name example... (v0.4-alpha)\033[0m"
 	./gago run --file examples/v0.4name.gago
 example3:
-	echo "\n\n\n\033[95mrunning sleep example... (v0.4-alpha)\033[0m"
+	make build
+	echo "\n\n\n\033[95mrunning sleep example...\033[0m"
 	./gago run --file examples/sleep.gago
-
+example4:
+	make build
+	echo "\n\n\n\033[95mrunning math example...\033[0m"
+	./gago run --file examples/math.gago

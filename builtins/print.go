@@ -1,6 +1,7 @@
 package builtins
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/glaukiol1/gago/lang"
@@ -22,6 +23,12 @@ func print(args []lang.Type, opt *lang.Options) lang.Type {
 				outtxt += " "
 			}
 			outtxt += strconv.FormatInt(v.Val().(int64), 10)
+		}
+		if v, ok := t.(*lang.TypeFloat); ok {
+			if i != 0 {
+				outtxt += " "
+			}
+			outtxt += fmt.Sprintf("%f", v.Val().(float64))
 		}
 	}
 	outtxt += "\n"
