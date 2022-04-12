@@ -104,7 +104,6 @@ func evalMathExpr(s string, vm *VM) lang.Type {
 			if vm.v {
 				fmt.Println("parsing variable into math expression...")
 			}
-			fmt.Println("parsed float64 "+k, q)
 			args[k] = q
 		}
 	}
