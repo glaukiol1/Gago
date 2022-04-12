@@ -42,6 +42,7 @@ func (lexer *Lexer) Lex() error {
 			break
 		}
 		token := NewToken(string(ln), pos)
+		// TODO: sometimes this errors out because there arent enough tokens in this line
 		if token.code == 13 && lexer.tokens[len(lexer.tokens)-1].code == 69 && lexer.tokens[len(lexer.tokens)-2].code != 69 {
 			lexer.tokens[len(lexer.tokens)-1] = NewToken("\n", pos)
 		} else {

@@ -3,7 +3,7 @@ Basic Syntax:
 
 for () {}
 if () {}
-gag = 123456
+const gag = 123456
 function testfunc(arg, arg) {
     
 }
