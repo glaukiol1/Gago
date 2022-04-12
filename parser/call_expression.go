@@ -118,7 +118,12 @@ func nhandle_call_expression(cursor *multipleCursor, parser *Parser, l bool) int
 					s[0] = _c
 					args = append(args, nhandle_call_expression(newMultipleCursor(s, tkns[0].GetLine()), parser, true))
 				} else {
-					args = append(args, ast.VariableAccess{AstType: ast.AST_TYPE_VARIABLE_ACCESS, Vname: v})
+					if exprIsMathEquation(v) {
+						c := evalMathExpr(v)
+						args = append(args, c)
+					} else {
+						args = append(args, ast.VariableAccess{AstType: ast.AST_TYPE_VARIABLE_ACCESS, Vname: v})
+					}
 				}
 			}
 		}

@@ -1,8 +1,8 @@
 const h = 'hello'
 var h1 = 'hello1'
 const num = 1234
-teststring
 call print('h', h, 'h1', h1, 'teststring', teststring, 'num (variable)', num, 'num (literal)', 1234, 'newline')
 const name = call input('write your name: ')
 call print('your name:', call input("your name"))
 const mathexpr = 1+1
+call print(mathexpr+2)

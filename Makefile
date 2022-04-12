@@ -7,6 +7,9 @@ build:
 test:
 	make build
 	./gago run --file examples/test.gago --v
+btest:
+	make build
+	./gago run --file examples/test.gago
 example1:
 	make build
 	echo "\n\n\n\033[95mrunning name example...\033[0m"

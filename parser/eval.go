@@ -3,6 +3,7 @@ package parser
 import (
 	"fmt"
 	"reflect"
+	"strings"
 
 	"github.com/Knetic/govaluate"
 	"github.com/glaukiol1/gago/ast"
@@ -33,11 +34,17 @@ func evaltokens(cursor *multipleCursor, parser *Parser) interface{} {
 			return nhandle_call_expression(cursor, parser, false)
 		}
 	}
-	if exprIsMathEquation(chars) {
-		if parser.v {
-			fmt.Println("found math expression")
+	if tokensAreString(cursor, parser.lexer) {
+		return tokensToGagoString(cursor, parser.lexer)
+	} else if tokensAreInt(cursor, parser.lexer) {
+		return tokensToGagoInt(cursor, parser.lexer)
+	} else {
+		if exprIsMathEquation(chars) {
+			if parser.v {
+				fmt.Println("found math expression")
+			}
+			return evalMathExpr(chars)
 		}
-		return evalMathExpr(chars)
 	}
 	lang.Errorf("SyntaxError", "Unknown expression type.", lang.BuildStack(cursor.CurrentTokens[len(cursor.CurrentTokens)-1], parser.lexer.GetFilename()), true).Run()
 	return nil
@@ -45,8 +52,11 @@ func evaltokens(cursor *multipleCursor, parser *Parser) interface{} {
 
 // evaluate if expr is math expression
 func exprIsMathEquation(s string) bool {
-	_, err := govaluate.NewEvaluableExpression("(x + 2) / 10")
-	return err == nil
+	if strings.ContainsAny(s, "+-^*/") {
+		_, err := govaluate.NewEvaluableExpression(s)
+		return err == nil
+	}
+	return false
 }
 
 // eval math equation

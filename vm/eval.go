@@ -72,6 +72,10 @@ func evalfunc(fc ast.FuncCall, vm *VM) lang.Type {
 		if q, ok := arg.(ast.FuncCall); ok {
 			args = append(args, evalfunc(q, vm)) // we may have nested function arguments
 		}
+		if q, ok := arg.(*ast.MathExpr); ok {
+			fmt.Println("VM Math expression", q.Expression)
+			args = append(args, evalMathExpr(q.Expression, vm))
+		}
 	}
 	return mthd.RunMethod(args, vm.mem.opts)
 }
@@ -92,12 +96,13 @@ func evalMathExpr(s string, vm *VM) lang.Type {
 		}
 	}
 	result, err := expr.Evaluate(args)
-	if vm.v {
-		fmt.Println("result: ", result, "typeof result: ", reflect.TypeOf(result).String())
-	}
 	if err != nil {
+		fmt.Println(args, s)
 		fmt.Println("error while parsing math expression..", err.Error())
 		return lang.Null
+	}
+	if vm.v {
+		fmt.Println("result: ", result, "typeof result: ", reflect.TypeOf(result).String())
 	}
 	r := result.(float64)
 	if decimalPortion(r) == 0 {
