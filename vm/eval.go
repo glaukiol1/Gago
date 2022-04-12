@@ -73,7 +73,6 @@ func evalfunc(fc ast.FuncCall, vm *VM) lang.Type {
 			args = append(args, evalfunc(q, vm)) // we may have nested function arguments
 		}
 		if q, ok := arg.(*ast.MathExpr); ok {
-			fmt.Println("VM Math expression", q.Expression)
 			args = append(args, evalMathExpr(q.Expression, vm))
 		}
 	}
