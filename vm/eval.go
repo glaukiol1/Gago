@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
+	"github.com/Knetic/govaluate"
 	"github.com/glaukiol1/gago/ast"
 	"github.com/glaukiol1/gago/lang"
 )
@@ -29,6 +30,11 @@ func eval(_ast ast.VariableDeclaration, vm *VM) lang.Type {
 		if err != nil {
 			err.(*lang.BaseError).Run()
 		}
+		return v
+	}
+	if q, ok := _ast.Vvalue.(*ast.MathExpr); ok {
+		v := evalMathExpr(q.Expression, vm)
+		v.SetConstant(_ast.Vtype == 1)
 		return v
 	}
 	return lang.Null
@@ -66,4 +72,31 @@ func evalfunc(fc ast.FuncCall, vm *VM) lang.Type {
 		}
 	}
 	return mthd.RunMethod(args, vm.mem.opts)
+}
+
+// eval math equation
+func evalMathExpr(s string, vm *VM) lang.Type {
+	expr, err := govaluate.NewEvaluableExpression(s)
+	if err != nil {
+		lang.Errorf("RuntimeError", s+" is not a math expression", "", true).Run()
+	}
+	args := make(map[string]interface{})
+	for k, v := range vm.mem.variables {
+		if q, ok := v.Val().(int64); ok {
+			if vm.v {
+				fmt.Println("parsing variable into math expression...")
+			}
+			args[k] = q
+		}
+	}
+	result, err := expr.Evaluate(args)
+	if vm.v {
+		fmt.Println("result: ", result, "typeof result: ", reflect.TypeOf(result).String())
+	}
+	if err != nil {
+		fmt.Println("error while parsing math expression..", err.Error())
+		return lang.Null
+	}
+
+	return lang.Float(result.(float64))
 }

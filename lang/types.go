@@ -10,3 +10,7 @@ type TypeString struct {
 type TypeInt struct {
 	BaseType
 }
+
+type TypeFloat struct {
+	BaseType
+}
