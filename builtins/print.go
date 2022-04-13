@@ -30,6 +30,12 @@ func print(args []lang.Type, opt *lang.Options) lang.Type {
 			}
 			outtxt += fmt.Sprintf("%f", v.Val().(float64))
 		}
+		if v, ok := t.(*lang.TypeBool); ok {
+			if i != 0 {
+				outtxt += " "
+			}
+			outtxt += strconv.FormatBool(v.Val().(bool))
+		}
 	}
 	outtxt += "\n"
 	opt.Stdout.Write([]byte(outtxt))

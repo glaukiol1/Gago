@@ -15,5 +15,9 @@ import (
 //	* Must ONLY have numbers AFTER the first CHARACTER
 
 func handle_const_expression(cursor *multipleCursor, parser *Parser) {
-	parser.Ast = append(parser.Ast, vhandler(cursor, parser, ast.VTYPE_CONST))
+	lineAst, ok := vhandler(cursor, parser, ast.VTYPE_CONST)
+	if !ok {
+		return
+	}
+	parser.Ast = append(parser.Ast, lineAst)
 }

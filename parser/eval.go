@@ -33,6 +33,9 @@ func evaltokens(cursor *multipleCursor, parser *Parser) interface{} {
 			return nhandle_call_expression(cursor, parser, false)
 		}
 	}
+	if len(cursor.CurrentTokens) == 0 {
+		return nil
+	}
 	if s, ok := tokensString(cursor, parser.lexer); ok {
 		return s
 	} else if tokensAreInt(cursor, parser.lexer) {

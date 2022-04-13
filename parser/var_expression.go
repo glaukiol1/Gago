@@ -15,5 +15,9 @@ import (
 //	* Must ONLY have numbers AFTER the first CHARACTER
 
 func handle_var_expression(cursor *multipleCursor, parser *Parser) {
-	parser.Ast = append(parser.Ast, vhandler(cursor, parser, ast.VTYPE_VAR))
+	lineAst, ok := vhandler(cursor, parser, ast.VTYPE_VAR)
+	if !ok {
+		return
+	}
+	parser.Ast = append(parser.Ast, lineAst)
 }

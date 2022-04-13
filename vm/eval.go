@@ -13,6 +13,7 @@ import (
 
 // evaluate expression
 
+// evaluate a variable declaration
 func eval(_ast ast.VariableDeclaration, vm *VM) lang.Type {
 	if q, ok := _ast.Vvalue.(*lang.TypeString); ok {
 		q.SetConstant(_ast.Vtype == 1)
@@ -64,6 +65,9 @@ func evalfunc(fc ast.FuncCall, vm *VM) lang.Type {
 			args = append(args, q)
 		}
 		if q, ok := arg.(*lang.TypeFloat); ok {
+			args = append(args, q)
+		}
+		if q, ok := arg.(*lang.TypeBool); ok {
 			args = append(args, q)
 		}
 		if q, ok := arg.(ast.Literal); ok {

@@ -17,6 +17,9 @@ func tokensString(cursor *multipleCursor, lexer *lexer.Lexer) (lang.Type, bool) 
 	tmpvalue := ""
 	i := 0
 	// this loop removes all leading whitespaces
+	if len(tkns) == 0 {
+		return nil, false
+	}
 	for {
 		if tkns[i].IsWhitespace() {
 			i += 1
