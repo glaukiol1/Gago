@@ -14,6 +14,8 @@ Gago includes:
 
 The gago standard library is not yet written
 
+View the projects timeline and progress [here](https://github.com/glaukiol1/Gago/projects/1)
+
 The gago builtins module: (as of v0.6-alpha)
 
 - `print(args...)` type: function. Doc: `prints the specified values seperated by a space`
