@@ -39,9 +39,10 @@ It can also be used as a wrapper around Go, since any Gago expression can be wri
 gago currently:
 
 - Lexes all tokens correctly
-- Parses some simple expressions to AST
+- Parses some expressions to AST
 - Is able to run the AST available right now (in the VM)
-- Has a builtin module, which will be extended.
+- Has a builtin module and module system.
+- Is able to run defined Go functions inside the Gago script.
 
 Taking the project further is the main goal. Making a simple language which can run just like any programming language would be a end goal. Once Gago is ready to run some of the more basic code, running benchmarks will be added.
 
