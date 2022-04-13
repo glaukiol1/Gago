@@ -38,6 +38,26 @@ const name = call input("enter your name: ")
 
 the variable name now has the value of whatever input() returned.
 
+#### Reassigning Variables
+
+To reassign a variable, you must make sure that you are reassigning the same type. If you try to assign a `int` to a `string`, you would get a error that looks like this:
+
+```md
+TypeError: Can not assign value of type `int` to variable of type `string`
+```
+
+If you are sure that the types match, you can reassign a variable via the `reset` keyword. An example script would be:
+
+```js
+var test = "test variable"
+call print("test:", test)
+reset test = call input("new value for test: ")
+call print("test:", test)
+// examples/reassignment.gago
+```
+
+This would get the user input and assign it to the variable `test`.
+
 ### Calling functions
 
 To call a function, you would do it like in most languages, but you need to add the `call` keyword in the beginning of the expression.

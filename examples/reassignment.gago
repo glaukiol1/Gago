@@ -1,4 +1,4 @@
-var var1 = "Hello world"
-call print("variable of type string value: ", var1)
-call print("reassigning to type int... should fail")
-reset var1 = 10000
+var test = "test variable"
+call print("test:", test)
+reset test = call input("new value for test: ")
+call print("test:", test)
