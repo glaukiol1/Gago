@@ -50,16 +50,11 @@ func (mem *Memory) Init(opts *lang.Options) {
 func (mem *Memory) VarCreate(name string, value interface{}) {
 	if val, ok := value.(lang.Type); ok {
 		if _, ok := mem.VarExists(name); ok {
-			// the variable exists, just reassign it
-			err := mem.VarUpdate(name, val.Val().(string))
-			if err != nil {
-				err.(*lang.BaseError).Run()
-			}
-		} else {
-			mem.variables[name] = val
-			if mem.v {
-				fmt.Println("Added variable to memory... Name: "+name+" Value: ", val.Val(), " Constant: "+strconv.FormatBool(val.IsConstant()))
-			}
+			lang.Errorf("TypeError", "Variable `"+name+"` is already initialized", "", true).Run()
+		}
+		mem.variables[name] = val
+		if mem.v {
+			fmt.Println("Added variable to memory... Name: "+name+" Value: ", val.Val(), " Constant: "+strconv.FormatBool(val.IsConstant()))
 		}
 	}
 }
@@ -78,8 +73,15 @@ func (mem *Memory) VarUpdate(name string, value interface{}) error {
 		if t.IsConstant() {
 			return lang.Errorf("TypeError", "Assignment to constant variable.", "\n\t At variable `"+name+"`", true)
 		}
-		t.Reassign(value)
-		return nil
+		if x, ok := value.(lang.Type); ok {
+			if x.Name() == t.Name() {
+				t.Reassign(x.Val())
+				return nil
+			} else {
+				return lang.Errorf("TypeError", "Can not assign value of type `"+x.Name()+"` to variable of type `"+t.Name()+"`", "", true)
+			}
+		}
+
 	}
 	return lang.Errorf("NameError", "Variabe "+name+" is not initialized.", "", true)
 }

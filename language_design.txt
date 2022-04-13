@@ -4,6 +4,7 @@ Basic Syntax:
 for () {}
 if () {}
 const gag = 123456
+reset gag = 555555
 function testfunc(arg, arg) {
     
 }

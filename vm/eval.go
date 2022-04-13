@@ -14,35 +14,47 @@ import (
 // evaluate expression
 
 // evaluate a variable declaration
-func eval(_ast ast.VariableDeclaration, vm *VM) lang.Type {
-	if q, ok := _ast.Vvalue.(*lang.TypeString); ok {
-		q.SetConstant(_ast.Vtype == 1)
+
+// evaluate variable declaration or redeclaration
+func eval(x interface{}, vm *VM) lang.Type {
+	if _ast, ok := x.(ast.VariableDeclaration); ok {
+		return evalexpr(_ast.Vvalue, vm)
+	}
+	if _ast, ok := x.(ast.VariableReDeclaration); ok {
+		return evalexpr(_ast.Vvalue, vm)
+	}
+	return lang.Null
+}
+
+// evaluate a experssion
+func evalexpr(arg interface{}, vm *VM) lang.Type {
+	if q, ok := arg.(*lang.TypeString); ok {
 		return q
 	}
-	if q, ok := _ast.Vvalue.(*lang.TypeInt); ok {
-		q.SetConstant(_ast.Vtype == 1)
+	if q, ok := arg.(*lang.TypeInt); ok {
 		return q
 	}
-	if q, ok := _ast.Vvalue.(*lang.TypeFloat); ok {
-		q.SetConstant(_ast.Vtype == 1)
+	if q, ok := arg.(*lang.TypeFloat); ok {
 		return q
 	}
-	if q, ok := _ast.Vvalue.(ast.FuncCall); ok {
-		v := evalfunc(q, vm)
-		v.SetConstant(_ast.Vtype == 1)
-		return v
+	if q, ok := arg.(*lang.TypeBool); ok {
+		return q
 	}
-	if q, ok := _ast.Vvalue.(ast.VariableAccess); ok {
-		v, err := vm.mem.AccessVar(q.Vname)
+	if q, ok := arg.(ast.Literal); ok {
+		return q.Value
+	}
+	if q, ok := arg.(ast.VariableAccess); ok {
+		l, err := vm.mem.AccessVar(q.Vname)
 		if err != nil {
 			err.(*lang.BaseError).Run()
 		}
-		return v
+		return l
 	}
-	if q, ok := _ast.Vvalue.(*ast.MathExpr); ok {
-		v := evalMathExpr(q.Expression, vm)
-		v.SetConstant(_ast.Vtype == 1)
-		return v
+	if q, ok := arg.(ast.FuncCall); ok {
+		return evalfunc(q, vm) // we may have nested function arguments
+	}
+	if q, ok := arg.(*ast.MathExpr); ok {
+		return evalMathExpr(q.Expression, vm)
 	}
 	return lang.Null
 }
@@ -58,34 +70,7 @@ func evalfunc(fc ast.FuncCall, vm *VM) lang.Type {
 		if vm.v {
 			fmt.Println("typeof of func arg", reflect.TypeOf(arg).String())
 		}
-		if q, ok := arg.(*lang.TypeString); ok {
-			args = append(args, q)
-		}
-		if q, ok := arg.(*lang.TypeInt); ok {
-			args = append(args, q)
-		}
-		if q, ok := arg.(*lang.TypeFloat); ok {
-			args = append(args, q)
-		}
-		if q, ok := arg.(*lang.TypeBool); ok {
-			args = append(args, q)
-		}
-		if q, ok := arg.(ast.Literal); ok {
-			args = append(args, q.Value)
-		}
-		if q, ok := arg.(ast.VariableAccess); ok {
-			l, err := vm.mem.AccessVar(q.Vname)
-			if err != nil {
-				err.(*lang.BaseError).Run()
-			}
-			args = append(args, l)
-		}
-		if q, ok := arg.(ast.FuncCall); ok {
-			args = append(args, evalfunc(q, vm)) // we may have nested function arguments
-		}
-		if q, ok := arg.(*ast.MathExpr); ok {
-			args = append(args, evalMathExpr(q.Expression, vm))
-		}
+		args = append(args, evalexpr(arg, vm))
 	}
 	return mthd.RunMethod(args, vm.mem.opts)
 }

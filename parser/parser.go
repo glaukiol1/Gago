@@ -113,6 +113,11 @@ func (parser *Parser) checkPattern(codes []int) int {
 			fmt.Println("found call statement")
 		}
 		return keyword_call
+	} else if reflect.DeepEqual(codes, KEYWORD_RESET_CODE) {
+		if parser.v {
+			fmt.Println("found reset statement")
+		}
+		return keyword_reset
 	}
 	return -1
 }

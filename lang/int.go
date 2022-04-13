@@ -5,5 +5,5 @@ package lang
 // find the definition in types.go
 
 func Int(s int64) *TypeInt {
-	return &TypeInt{BaseType{Typename: "string", Value: s, Constant: false}}
+	return &TypeInt{BaseType{Typename: "int", Value: s, Constant: false}}
 }

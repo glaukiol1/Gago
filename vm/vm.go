@@ -70,6 +70,15 @@ func (vm *VM) Run() {
 		if ast_, ok := v.(ast.FuncCall); ok {
 			evalfunc(ast_, vm)
 		}
+
+		// variable redeclaration
+		if ast_, ok := v.(ast.VariableReDeclaration); ok {
+			q := eval(ast_, vm)
+			err := vm.mem.VarUpdate(ast_.Vname, q)
+			if err != nil {
+				err.(*lang.BaseError).Run()
+			}
+		}
 	}
 }
 

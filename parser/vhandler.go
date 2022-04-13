@@ -9,7 +9,7 @@ import (
 // merge var_expression & const_expression
 // so it isnt needed to copy the file contents
 
-func vhandler(cursor *multipleCursor, parser *Parser, vtype int) (ast.VariableDeclaration, bool) {
+func vvhandler(cursor *multipleCursor, parser *Parser) (string, interface{}, bool) {
 	lexer := parser.lexer
 	cursor.SetIndex(1) // start at index 1
 
@@ -30,7 +30,7 @@ func vhandler(cursor *multipleCursor, parser *Parser, vtype int) (ast.VariableDe
 	// checks for `=`
 	if len(cursor.CurrentTokens) != 1 {
 		lang.Errorf("SyntaxError", "Unexpected indentifier, expected `=`", lang.BuildStack(cursor.CurrentTokens[0], lexer.GetFilename()), true).Run()
-		return ast.VariableDeclaration{}, false // will never run
+		return "", nil, false // will never run
 	}
 	NewTokenTest(cursor.CurrentTokens[0], lexer).ValueIs("=", true)
 
@@ -49,9 +49,16 @@ func vhandler(cursor *multipleCursor, parser *Parser, vtype int) (ast.VariableDe
 		cursor.JoinAllFrom(3, " ")
 		v = evaltokens(cursor, parser)
 		if v == nil {
-			return ast.VariableDeclaration{}, false
+			return "", nil, false
 		}
 	}
+	return vname, v, true
+}
 
-	return ast.VariableDeclaration{AstType: ast.AST_TYPE_VAR_DECLARATION, Vtype: vtype, Vname: vname, Vvalue: v}, true
+func vhandler(cursor *multipleCursor, parser *Parser, vtype int) (ast.VariableDeclaration, bool) {
+	vname, vvalue, ok := vvhandler(cursor, parser)
+	if !ok {
+		return ast.VariableDeclaration{}, false
+	}
+	return ast.VariableDeclaration{AstType: ast.AST_TYPE_VAR_DECLARATION, Vtype: vtype, Vname: vname, Vvalue: vvalue}, true
 }
