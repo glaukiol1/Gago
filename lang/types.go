@@ -18,3 +18,7 @@ type TypeInt struct {
 type TypeFloat struct {
 	BaseType
 }
+
+type TypeBool struct {
+	BaseType
+}
