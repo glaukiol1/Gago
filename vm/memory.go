@@ -49,9 +49,17 @@ func (mem *Memory) Init(opts *lang.Options) {
 
 func (mem *Memory) VarCreate(name string, value interface{}) {
 	if val, ok := value.(lang.Type); ok {
-		mem.variables[name] = val
-		if mem.v {
-			fmt.Println("Added variable to memory... Name: "+name+" Value: ", val.Val(), " Constant: "+strconv.FormatBool(val.IsConstant()))
+		if _, ok := mem.VarExists(name); ok {
+			// the variable exists, just reassign it
+			err := mem.VarUpdate(name, value)
+			if err != nil {
+				err.(*lang.BaseError).Run()
+			}
+		} else {
+			mem.variables[name] = val
+			if mem.v {
+				fmt.Println("Added variable to memory... Name: "+name+" Value: ", val.Val(), " Constant: "+strconv.FormatBool(val.IsConstant()))
+			}
 		}
 	}
 }
@@ -68,12 +76,12 @@ func (mem *Memory) VarExists(name string) (lang.Type, bool) {
 func (mem *Memory) VarUpdate(name string, value interface{}) error {
 	if t, ok := mem.VarExists(name); ok {
 		if t.IsConstant() {
-			return lang.Errorf("TypeError", "Assignment to constant variable.", "At variable "+t.Name(), true)
+			return lang.Errorf("TypeError", "Assignment to constant variable.", "\n\t At variable `"+name+"`", true)
 		}
 		t.Reassign(value)
 		return nil
 	}
-	return lang.Errorf("RuntimeError", "Unable to reasssign to variable "+name, "", true)
+	return lang.Errorf("NameError", "Variabe "+name+" is not initialized.", "", true)
 }
 
 func (mem *Memory) AccessVar(name string) (lang.Type, error) {
