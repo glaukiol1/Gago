@@ -1,3 +1,5 @@
 const var1 = true
 const var2 = false
+
 call print(var1, var2)
+call print(true, false)
