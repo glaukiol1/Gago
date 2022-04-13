@@ -46,7 +46,7 @@ To reassign a variable, you must make sure that you are reassigning the same typ
 TypeError: Can not assign value of type `int` to variable of type `string`
 ```
 
-If you are sure that the types match, you can reassign a variable via the `reset` keyword. An example script would be:
+If you are sure that the types match, you can eassign a variable via the `reset` keyword. An example script would be:
 
 ```js
 var test = "test variable"
