@@ -31,3 +31,7 @@ func (module *Module) GetMethods() map[string]*lang.Method {
 func (module *Module) GetGlobals() map[string]lang.Type {
 	return module.globals
 }
+
+func (module *Module) GetQualName() string {
+	return module.qualanme
+}

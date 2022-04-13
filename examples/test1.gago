@@ -1,0 +1,2 @@
+const s = test.teststring
+call print(s)

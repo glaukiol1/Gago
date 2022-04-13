@@ -45,6 +45,7 @@ func (mem *Memory) LoadBuiltins() {
 func (mem *Memory) Init(opts *lang.Options) {
 	mem.opts = opts
 	mem.LoadBuiltins()
+	LoadStdlib(mem)
 }
 
 func (mem *Memory) VarCreate(name string, value interface{}) {
