@@ -14,12 +14,13 @@ Gago includes:
 
 The gago standard library is not yet written
 
-The gago builtins module: (as of v0.5-alpha)
+The gago builtins module: (as of v0.6-alpha)
 
 - `print(args...)` type: function. Doc: `prints the specified values seperated by a space`
 - `input` type: function. Doc `gets input from stdin until newline`
 - `teststring` type: global variable. Use: `testing purposes`
 - `sleep` type: function. Doc: `sleeps for the specified ms` _experimental_
+- `exit` type: function. Doc: `exits from the process` _experimental_
 
 ## Install
 

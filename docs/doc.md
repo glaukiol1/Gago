@@ -149,3 +149,36 @@ fl**2 = 102.484361
 ```
 
 In Gago, floats have a percision of 6. Which means that there can be 6 integers after the decimal point. If there are more than 6, it is rounded.
+
+## Builtins
+
+Docs for builtin functions
+
+### `print`
+
+Print `args` seperated by a space. There can be as many args as you want. They will be printed to standard out.
+They can be of any type.
+
+### `input`
+
+To get input from a user, you run the `input(message)` function, where `message` is a string that will be printed to standard out in the line where the input starts.
+
+Example:
+
+```js
+// examples/name.gago
+const name = call input("whats your name? ")
+call print("your name is", name)
+```
+
+Now you can enter your name in the command line, and it would print out `your name is <yourname>`.
+
+### `exit`
+
+To exit from the process, you can run `exit()`, with an optional `<int code>` argument. The `code` argument must be of type int.
+
+Example:
+
+```js
+exit(0)
+```
