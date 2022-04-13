@@ -7,6 +7,7 @@ import (
 
 	"github.com/Knetic/govaluate"
 	"github.com/glaukiol1/gago/ast"
+	"github.com/glaukiol1/gago/lang"
 )
 
 // this file will include functions to evaluate a expression
@@ -47,6 +48,12 @@ func evaltokens(cursor *multipleCursor, parser *Parser) interface{} {
 			}
 			return evalMathExpr(chars)
 		} else {
+			if chars == "true" {
+				return ast.Literal{AstType: ast.AST_TYPE_LITERAL, Value: lang.True}
+			}
+			if chars == "false" {
+				return ast.Literal{AstType: ast.AST_TYPE_LITERAL, Value: lang.False}
+			}
 			return ast.VariableAccess{AstType: ast.AST_TYPE_VARIABLE_ACCESS, Vname: chars}
 		}
 	}

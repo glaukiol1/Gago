@@ -1,7 +1,6 @@
 package parser
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
@@ -45,7 +44,6 @@ func tokensString(cursor *multipleCursor, lexer *lexer.Lexer) (lang.Type, bool) 
 			isSq := tkntest.NValueIs("'")
 			isDq := tkntest.NValueIs("\"")
 			if !(isSq && qt == 0) && !(isDq && qt == 1) {
-				fmt.Println("errored on", t.GetValue())
 				lang.Errorf("SyntaxError", "Unterminated string literal", lang.BuildStack(tkns[i], lexer.GetFilename()), true).Run()
 				return nil, false
 			}
