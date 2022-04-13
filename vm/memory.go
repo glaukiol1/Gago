@@ -51,7 +51,7 @@ func (mem *Memory) VarCreate(name string, value interface{}) {
 	if val, ok := value.(lang.Type); ok {
 		if _, ok := mem.VarExists(name); ok {
 			// the variable exists, just reassign it
-			err := mem.VarUpdate(name, value)
+			err := mem.VarUpdate(name, val.Val().(string))
 			if err != nil {
 				err.(*lang.BaseError).Run()
 			}

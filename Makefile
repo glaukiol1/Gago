@@ -38,6 +38,10 @@ example7:
 	make build
 	echo "\n\n\n\033[95mrunning bool example...\033[0m"
 	./gago run --file examples/bool.gago
+example8:
+	make build
+	echo "\n\n\n\033[95mrunning reassignment example...\033[0m"
+	./gago run --file examples/reassignment.gago
 xrepl:
 	make build
 	./gago
