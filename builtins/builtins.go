@@ -19,5 +19,7 @@ func FBuilitins(stdout *os.File) *module.Module {
 	methods["exit"] = mexit
 	globals["teststring"] = lang.String("hello world!") // test exporting builtins
 	globals["null"] = lang.Null
+	globals["true"] = lang.True
+	globals["false"] = lang.False
 	return module.NewModule("builtins", methods, globals)
 }
