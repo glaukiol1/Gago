@@ -7,7 +7,7 @@ import (
 // create an array function
 
 func createArray(args []lang.Type, opt *lang.Options) lang.Type {
-	var arrayValue Slice
+	arrayValue := new(Slice)
 	arrayValue.Items = append(arrayValue.Items, args...)
 	return lang.LoadCustomType("slice", arrayValue)
 }

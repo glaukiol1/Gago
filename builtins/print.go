@@ -12,7 +12,7 @@ import (
 func print(args []lang.Type, opt *lang.Options) lang.Type {
 	var outtxt string
 	for _, t := range args {
-		if v, ok := t.Val().(array.Slice); ok {
+		if v, ok := t.Val().(*array.Slice); ok {
 			outtxt += "["
 			for i, t2 := range v.Items {
 				outtxt += fmt.Sprint(t2.Val())

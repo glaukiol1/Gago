@@ -13,3 +13,7 @@ call print("Index 0:", indx0)
 call print("Index 1:", indx1)
 call print("Index 2:", indx2)
 call print("Index 3:", indx3)
+
+call print("popping array")
+call array.pop(s)
+call print("new array", s)
