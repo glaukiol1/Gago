@@ -9,5 +9,5 @@ Data Types:
 - float (in Go: `lang.FloatType`)
 - null (in Go: `lang.NullType`) represents `nil` in Go.
 - bool (true or false) (in Go: `lang.True` or `lang.False` in Go)
-
-The implementation of these datatypes can be found in the `lang` folder.
+- Object (in Go: `object.Object`)
+- Array (in Go: `array.Slice`)
