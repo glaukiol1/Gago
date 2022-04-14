@@ -9,6 +9,7 @@ package stdlib
 import (
 	"github.com/glaukiol1/gago/module"
 	array "github.com/glaukiol1/gago/stdlib/array"
+	object "github.com/glaukiol1/gago/stdlib/object"
 	mod "github.com/glaukiol1/gago/stdlib/test"
 )
 
@@ -16,5 +17,6 @@ func Modules() []*module.Module {
 	var r []*module.Module
 	r = append(r, mod.Init())
 	r = append(r, array.Init())
+	r = append(r, object.Init())
 	return r
 }

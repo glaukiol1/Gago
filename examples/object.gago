@@ -1,0 +1,5 @@
+import object
+
+const obj = call object.create()
+
+call print(obj)
