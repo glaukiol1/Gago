@@ -99,8 +99,9 @@ func nhandle_call_expression(cursor *multipleCursor, parser *Parser, l bool) int
 			fmt.Println("rawargs |" + rawargs + "|")
 		}
 		rargs := strings.Split(rawargs, ",") // TODO: this will split it even in the middle of a literal, fix this.
-		for _, v := range rargs {
+		for i, v := range rargs {
 			v = strings.TrimSpace(v)
+			v = strings.ReplaceAll(v, ")", "")
 			if isValidString(v, parser.lexer, tkns[0]) {
 				st := utils.GoStrToGagoStr(v)
 				args = append(args, ast.Literal{AstType: ast.AST_TYPE_LITERAL, Value: st})
@@ -110,9 +111,17 @@ func nhandle_call_expression(cursor *multipleCursor, parser *Parser, l bool) int
 			} else {
 				if strings.HasPrefix(v, "call ") {
 					var _c []*lexer.Token
-					for i, c := range v {
-						tkn := lexer.NewToken(string(c), i)
-						_c = append(_c, tkn)
+					for i, z := range rargs[i:] {
+						z += ","
+						for _, c := range z {
+							if string(c) == ")" {
+								tkn := lexer.NewToken(string(c), i)
+								_c = append(_c, tkn)
+								break
+							}
+							tkn := lexer.NewToken(string(c), i)
+							_c = append(_c, tkn)
+						}
 					}
 					s := make([][]*lexer.Token, 1)
 					s[0] = _c

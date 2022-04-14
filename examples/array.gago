@@ -1,0 +1,46 @@
+const s = call array.create(1, "Hello", 2, "World")
+call print("Whole array:", s)
+call print()
+const len = call array.len(s)
+const indx0 = call array.access(s, 0)
+const indx1 = call array.access(s, 1)
+const indx2 = call array.access(s, 2)
+const indx3 = call array.access(s, 3)
+
+call print("Array length:", len)
+call print()
+call print("Index 0:", indx0)
+call print("Index 1:", indx1)
+call print("Index 2:", indx2)
+call print("Index 3:", indx3)
+
+call print("popping array")
+call array.pop(s)
+call print("new array", s)
+
+call print("shifting array")
+call array.shift(s)
+call print("new array", s)
+
+call print()
+call print()
+
+call print("creating a new array...")
+const newarray = call array.create(1,2,3,4,5,6)
+call print("new array:", newarray)
+
+call print()
+
+const subslice1 = call array.subslice(newarray, 0, 3)
+const subslice2 = call array.subslice(newarray, 0, -1)
+const subslice3 = call array.subslice(newarray, 2, 5)
+
+call print("subslice 0 to 3:", subslice1)
+call print("subslice 0 to -1:", subslice2)
+call print("subslice 2 to 5:", subslice3)
+
+call print()
+
+call print("creating new boolean array")
+const boolarray = call array.create(true, false, true, false)
+call print("bool array:", boolarray)

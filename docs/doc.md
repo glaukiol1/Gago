@@ -5,6 +5,7 @@ This folder contains examples and docs for the Gago programming language.
 This file contains the basic syntax info. For other docs:
 
 - [Data types](datatypes.md)
+- [Array Module](array.md)
 
 ## Basic Syntax
 

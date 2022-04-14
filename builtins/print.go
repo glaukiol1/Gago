@@ -2,40 +2,29 @@ package builtins
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/glaukiol1/gago/lang"
+	"github.com/glaukiol1/gago/stdlib/array"
 )
 
 // the print() function
 
 func print(args []lang.Type, opt *lang.Options) lang.Type {
 	var outtxt string
-	for i, t := range args {
-		if v, ok := t.(*lang.TypeString); ok {
-			if i != 0 {
-				outtxt += " "
+	for _, t := range args {
+		if v, ok := t.Val().(*array.Slice); ok {
+			outtxt += "["
+			for i, t2 := range v.Items {
+				outtxt += fmt.Sprint(t2.Val())
+				if i != len(v.Items)-1 {
+					outtxt += ", "
+				}
 			}
-			outtxt += v.Val().(string)
+			outtxt += "]"
+		} else {
+			outtxt += fmt.Sprint(t.Val())
 		}
-		if v, ok := t.(*lang.TypeInt); ok {
-			if i != 0 {
-				outtxt += " "
-			}
-			outtxt += strconv.FormatInt(v.Val().(int64), 10)
-		}
-		if v, ok := t.(*lang.TypeFloat); ok {
-			if i != 0 {
-				outtxt += " "
-			}
-			outtxt += fmt.Sprintf("%f", v.Val().(float64))
-		}
-		if v, ok := t.(*lang.TypeBool); ok {
-			if i != 0 {
-				outtxt += " "
-			}
-			outtxt += strconv.FormatBool(v.Val().(bool))
-		}
+		outtxt += " "
 	}
 	outtxt += "\n"
 	opt.Stdout.Write([]byte(outtxt))

@@ -28,16 +28,7 @@ func eval(x interface{}, vm *VM) lang.Type {
 
 // evaluate a experssion
 func evalexpr(arg interface{}, vm *VM) lang.Type {
-	if q, ok := arg.(*lang.TypeString); ok {
-		return q
-	}
-	if q, ok := arg.(*lang.TypeInt); ok {
-		return q
-	}
-	if q, ok := arg.(*lang.TypeFloat); ok {
-		return q
-	}
-	if q, ok := arg.(*lang.TypeBool); ok {
+	if q, ok := arg.(lang.Type); ok {
 		return q
 	}
 	if q, ok := arg.(ast.Literal); ok {
@@ -72,7 +63,8 @@ func evalfunc(fc ast.FuncCall, vm *VM) lang.Type {
 		}
 		args = append(args, evalexpr(arg, vm))
 	}
-	return mthd.RunMethod(args, vm.mem.opts)
+	result := mthd.RunMethod(args, vm.mem.opts)
+	return result
 }
 
 // eval math equation

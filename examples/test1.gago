@@ -1,2 +1,2 @@
-const s = test.teststring
+const s = call array.create(1, "Hello", 2, "World")
 call print(s)
