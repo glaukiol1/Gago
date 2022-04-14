@@ -15,5 +15,6 @@ func Init() *module.Module {
 	methods["len"] = FLen
 	methods["pop"] = FPop
 	methods["shift"] = FShift
+	methods["subslice"] = FSubslice
 	return module.NewModule("array", methods, globals)
 }
