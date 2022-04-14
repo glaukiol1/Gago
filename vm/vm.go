@@ -79,6 +79,13 @@ func (vm *VM) Run() {
 				err.(*lang.BaseError).Run()
 			}
 		}
+
+		// a import statement is when the script asks
+		// to import a module, and make its globals
+		// accessible for later use (stored in mem)
+		if ast_, ok := v.(ast.Import); ok {
+			vm.mem.LoadModule(ast_.Mname)
+		}
 	}
 }
 
