@@ -13,6 +13,6 @@ func Init() *module.Module {
 	globals := make(map[string]lang.Type)
 
 	methods["create"] = FCreate
-
+	methods["set"] = FSet
 	return module.NewModule("object", methods, globals)
 }

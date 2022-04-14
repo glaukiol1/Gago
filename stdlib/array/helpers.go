@@ -97,6 +97,8 @@ func subsliceArray(args []lang.Type, opt *lang.Options) lang.Type {
 				newV := new(Slice)
 				newV.Items = v.Items[i1:i2]
 				return lang.LoadCustomType("slice", newV)
+			} else {
+				lang.Errorf("TypeError", "Expected argument of type int (pos 3), but got "+args[2].Name(), "", true).Run()
 			}
 		} else {
 			lang.Errorf("TypeError", "Expected argument of type int (pos 2), but got "+args[1].Name(), "", true).Run()
