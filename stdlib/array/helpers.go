@@ -1,6 +1,10 @@
 package array
 
-import "github.com/glaukiol1/gago/lang"
+import (
+	"fmt"
+
+	"github.com/glaukiol1/gago/lang"
+)
 
 // helper functions for interacting with arrays
 // in the Gago programming language
@@ -13,6 +17,9 @@ func accessArray(args []lang.Type, opt *lang.Options) lang.Type {
 	}
 	if v, ok := args[0].Val().(Slice); ok {
 		if i, ok := args[1].Val().(int64); ok {
+			if i > int64(len(v.Items)-1) {
+				lang.Errorf("IndexError", "Index "+fmt.Sprint(i)+" out of bounds.", "", true).Run()
+			}
 			return v.Items[i]
 		} else {
 			lang.Errorf("TypeError", "Expected argument of type int (pos 2), but got "+args[1].Name(), "", true).Run()
