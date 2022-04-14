@@ -12,5 +12,6 @@ func Init() *module.Module {
 	globals := make(map[string]lang.Type)
 	methods["create"] = FCreateArray
 	methods["access"] = FAccess
+	methods["len"] = FLen
 	return module.NewModule("array", methods, globals)
 }

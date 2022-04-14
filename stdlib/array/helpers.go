@@ -30,4 +30,19 @@ func accessArray(args []lang.Type, opt *lang.Options) lang.Type {
 	return nil
 }
 
+// len returns the length of the slice
+// on a non-zero based index (starting at 1)
+func lenArray(args []lang.Type, opt *lang.Options) lang.Type {
+	if len(args) != 1 {
+		lang.Errorf("TypeError", "Expected 1 arguments", "\n\t At call for array.len", true).Run()
+	}
+	if v, ok := args[0].Val().(Slice); ok {
+		return lang.Int(int64(len(v.Items)))
+	} else {
+		lang.Errorf("TypeError", "Expected argument of type slice (pos 1), but got "+args[0].Name(), "", true).Run()
+	}
+	return nil
+}
+
 var FAccess = lang.NewMethod("access", accessArray, "access will return the item at the specified index or throw a IndexError if the item at that index does not exist")
+var FLen = lang.NewMethod("len", lenArray, "len returns the length of the slice on a non-zero based index (starting at 1)")
