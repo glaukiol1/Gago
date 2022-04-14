@@ -5,6 +5,7 @@ import (
 
 	"github.com/glaukiol1/gago/lang"
 	"github.com/glaukiol1/gago/stdlib/array"
+	"github.com/glaukiol1/gago/stdlib/object"
 )
 
 // the print() function
@@ -21,6 +22,18 @@ func print(args []lang.Type, opt *lang.Options) lang.Type {
 				}
 			}
 			outtxt += "]"
+		} else if v, ok := t.Val().(*object.Object); ok {
+			outtxt += "{"
+			i := 0
+			for k, t2 := range v.Value {
+
+				outtxt += fmt.Sprint(k+": ") + fmt.Sprint(t2.Val())
+				if i != len(v.Value)-1 {
+					outtxt += ", "
+				}
+				i += 1
+			}
+			outtxt += "}"
 		} else {
 			outtxt += fmt.Sprint(t.Val())
 		}
