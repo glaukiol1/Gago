@@ -14,5 +14,6 @@ func Init() *module.Module {
 	methods["access"] = FAccess
 	methods["len"] = FLen
 	methods["pop"] = FPop
+	methods["shift"] = FShift
 	return module.NewModule("array", methods, globals)
 }

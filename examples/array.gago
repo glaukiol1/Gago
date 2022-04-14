@@ -17,3 +17,7 @@ call print("Index 3:", indx3)
 call print("popping array")
 call array.pop(s)
 call print("new array", s)
+
+call print("shifting array")
+call array.shift(s)
+call print("new array", s)
