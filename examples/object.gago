@@ -2,4 +2,10 @@ import object
 
 const obj = call object.create()
 
+call object.set(obj, "test", 1234)
+
 call print(obj)
+
+const val = call object.get(obj, "test")
+
+call print(val)
