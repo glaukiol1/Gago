@@ -1,19 +1,24 @@
 package vm
 
 import (
+	"github.com/glaukiol1/gago/lang"
 	"github.com/glaukiol1/gago/module"
 	"github.com/glaukiol1/gago/stdlib"
 )
 
 // load stdlib modules
 
-func LoadStdlib(mem *Memory) {
+func LoadStdlib(mem *Memory, name string) {
 	for _, v := range stdlib.Modules() {
-		loadModuleGlobals(v, mem)
+		if v.GetQualName() == name {
+			loadModule(v, mem)
+			return
+		}
 	}
+	lang.Errorf("ImportError", "Couldn't locate module `"+name+"`", "", true).Run()
 }
 
-func loadModuleGlobals(m *module.Module, mem *Memory) {
+func loadModule(m *module.Module, mem *Memory) {
 	for k, t := range m.GetGlobals() {
 		mem.VarCreate(parseModuleName(m, k), t)
 	}

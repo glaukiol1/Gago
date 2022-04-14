@@ -118,6 +118,11 @@ func (parser *Parser) checkPattern(codes []int) int {
 			fmt.Println("found reset statement")
 		}
 		return keyword_reset
+	} else if reflect.DeepEqual(codes, KEYWORD_IMPORT_CODE) {
+		if parser.v {
+			fmt.Println("found import statement")
+		}
+		return keyword_import
 	}
 	return -1
 }
