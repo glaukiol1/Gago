@@ -38,3 +38,9 @@ const subslice3 = call array.subslice(newarray, 2, 5)
 call print("subslice 0 to 3:", subslice1)
 call print("subslice 0 to -1:", subslice2)
 call print("subslice 2 to 5:", subslice3)
+
+call print()
+
+call print("creating new boolean array")
+const boolarray = call array.create(true, false, true, false)
+call print("bool array:", boolarray)
