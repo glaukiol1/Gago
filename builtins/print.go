@@ -22,8 +22,7 @@ func print(args []lang.Type, opt *lang.Options) lang.Type {
 				}
 			}
 			outtxt += "]"
-		}
-		if v, ok := t.Val().(*object.Object); ok {
+		} else if v, ok := t.Val().(*object.Object); ok {
 			outtxt += "{"
 			for k, t2 := range v.Value {
 				outtxt += fmt.Sprint(k+": ") + fmt.Sprint(t2.Val())
