@@ -11,5 +11,6 @@ func Init() *module.Module {
 	methods := make(map[string]*lang.Method)
 	globals := make(map[string]lang.Type)
 	methods["create"] = FCreateArray
+	methods["access"] = FAccess
 	return module.NewModule("array", methods, globals)
 }

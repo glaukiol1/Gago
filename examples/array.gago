@@ -1,2 +1,11 @@
 const s = call array.create(1, "Hello", 2, "World")
-call print(s)
+call print("Whole array:", s)
+const indx0 = call array.access(s, 0)
+const indx1 = call array.access(s, 1)
+const indx2 = call array.access(s, 2)
+const indx3 = call array.access(s, 3)
+
+call print("Index 0:", indx0)
+call print("Index 1:", indx1)
+call print("Index 2:", indx2)
+call print("Index 3:", indx3)
