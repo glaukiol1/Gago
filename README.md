@@ -11,8 +11,7 @@ Gago includes:
 - VM
 - Module implementation
 - Easy embedding into your Go application
-
-The gago standard library is not yet written
+- Standard library
 
 View the projects timeline and progress [here](https://github.com/glaukiol1/Gago/projects/1)
 
