@@ -15,5 +15,6 @@ func Init() *module.Module {
 	methods["create"] = FCreate
 	methods["set"] = FSet
 	methods["get"] = FGet
+	methods["keys"] = FKeys
 	return module.NewModule("object", methods, globals)
 }

@@ -2,6 +2,7 @@ package object
 
 import (
 	"github.com/glaukiol1/gago/lang"
+	"github.com/glaukiol1/gago/stdlib/array"
 )
 
 // functions for interacting with objects
@@ -42,5 +43,23 @@ func getObject(args []lang.Type, opt *lang.Options) lang.Type {
 	return lang.Null
 }
 
+// get a slice of all keys in the object
+func keysObject(args []lang.Type, opt *lang.Options) lang.Type {
+	if len(args) != 1 {
+		lang.Errorf("TypeError", "Expected 1 argument", "\n\t At call for object.keys", true).Run()
+	}
+	if v, ok := args[0].Val().(*Object); ok {
+		keys := make([]lang.Type, 0, len(v.Value))
+		for k := range v.Value {
+			keys = append(keys, lang.String(k))
+		}
+		return lang.LoadCustomType("slice", &array.Slice{Items: keys})
+	} else {
+		lang.Errorf("TypeError", "Expected argument of type object (pos 1), but got "+args[0].Name(), "", true).Run()
+	}
+	return lang.Null
+}
+
 var FSet = lang.NewMethod("set", setObject, "set a value in the given object.")
 var FGet = lang.NewMethod("get", getObject, "get a value in the given object.")
+var FKeys = lang.NewMethod("keys", keysObject, "get a slice of all keys in the object.")
