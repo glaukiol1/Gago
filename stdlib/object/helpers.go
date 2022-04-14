@@ -33,7 +33,11 @@ func getObject(args []lang.Type, opt *lang.Options) lang.Type {
 	}
 	if v, ok := args[0].Val().(*Object); ok {
 		if i1, ok := args[1].Val().(string); ok {
-			return v.Value[i1]
+			if v.Value[i1] != nil {
+				return v.Value[i1]
+			} else {
+				return lang.Null
+			}
 		} else {
 			lang.Errorf("TypeError", "Expected argument of type string (pos 2), but got "+args[1].Name(), "", true).Run()
 		}

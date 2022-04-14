@@ -6,10 +6,10 @@ call object.set(obj, "test", 1234)
 
 call print("obj:", obj)
 
-const val = call object.get(obj, "test")
-
-call print("test value:", val)
-
 const keys = call object.keys(obj)
 
 call print("keys:", keys)
+
+const val = call object.get(obj, "test")
+
+call print('"test" value:', val)
