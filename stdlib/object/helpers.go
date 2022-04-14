@@ -7,7 +7,7 @@ import (
 // functions for interacting with objects
 // in Gago
 
-// init a empty object
+// set a value in the given object.
 func setObject(args []lang.Type, opt *lang.Options) lang.Type {
 	if len(args) != 3 {
 		lang.Errorf("TypeError", "Expected 3 arguments", "\n\t At call for object.set", true).Run()
@@ -25,4 +25,4 @@ func setObject(args []lang.Type, opt *lang.Options) lang.Type {
 	return lang.Null
 }
 
-var FSet = lang.NewMethod("set", setObject, "init a empty object")
+var FSet = lang.NewMethod("set", setObject, "set a value in the given object.")
