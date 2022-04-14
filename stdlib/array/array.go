@@ -8,5 +8,8 @@ import (
 // the standard library for interacting with arrays
 
 func Init() *module.Module {
-	return module.NewModule("array", make(map[string]*lang.Method), make(map[string]lang.Type))
+	methods := make(map[string]*lang.Method)
+	globals := make(map[string]lang.Type)
+	methods["create"] = FCreateArray
+	return module.NewModule("array", methods, globals)
 }

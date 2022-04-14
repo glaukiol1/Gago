@@ -9,6 +9,6 @@ type CustomType struct {
 	BaseType
 }
 
-func LoadCustomType(qualname string, value interface{}, name string) CustomType {
-	return CustomType{BaseType: BaseType{Typename: qualname, Value: value}}
+func LoadCustomType(qualname string, value interface{}) *CustomType {
+	return &CustomType{BaseType{Typename: qualname, Value: value}}
 }

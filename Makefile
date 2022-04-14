@@ -48,6 +48,10 @@ example8:
 	make build
 	echo "\n\n\n\033[95mrunning reassignment example...\033[0m"
 	./gago run --file examples/reassignment.gago
+example9:
+	make build
+	echo "\n\n\n\033[95mrunning array example...\033[0m"
+	./gago run --file examples/array.gago
 xrepl:
 	make build
 	./gago

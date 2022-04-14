@@ -63,7 +63,8 @@ func evalfunc(fc ast.FuncCall, vm *VM) lang.Type {
 		}
 		args = append(args, evalexpr(arg, vm))
 	}
-	return mthd.RunMethod(args, vm.mem.opts)
+	result := mthd.RunMethod(args, vm.mem.opts)
+	return result
 }
 
 // eval math equation
