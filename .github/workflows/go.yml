@@ -40,3 +40,13 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+  release-binary:
+    name: release windows/darwin/linux
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: wangyoucao577/go-release-action@v1.26
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        goos: [linux, windows, darwin]
+        goarch: ["386", amd64, arm64]
