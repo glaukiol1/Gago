@@ -56,6 +56,10 @@ example10:
 	make build
 	echo "\n\n\n\033[95mrunning object example...\033[0m"
 	./gago run --file examples/object.gago
+example11:
+	make build
+	echo "\n\n\n\033[95mrunning string example...\033[0m"
+	./gago run --file examples/string.gago
 xrepl:
 	make build
 	./gago

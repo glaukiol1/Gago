@@ -1,0 +1,5 @@
+import string
+
+const str = call string.concat("hello", " ", "world", "!")
+
+call print(str)
