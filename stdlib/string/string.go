@@ -15,6 +15,7 @@ func Init() *module.Module {
 	methods["concat"] = FConcat
 	methods["contains"] = FContains
 	methods["containsAny"] = FContainsAny
+	methods["trimSpace"] = FTrimSpace
 
 	return module.NewModule("string", methods, globals)
 }

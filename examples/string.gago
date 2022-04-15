@@ -11,3 +11,8 @@ call print("string contains 'hello':", contains1)
 const containsany1 = call string.containsAny(str, "xyz")
 
 call print("string containsAny 'xyz':", containsany1)
+
+const trimedSpace = call string.trimSpace("  1234  ")
+
+const s = call string.concat("trimSpace '  1234  ' = |", trimedSpace, "|")
+call print(s)
