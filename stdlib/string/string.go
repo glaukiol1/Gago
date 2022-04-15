@@ -14,6 +14,7 @@ func Init() *module.Module {
 
 	methods["concat"] = FConcat
 	methods["contains"] = FContains
+	methods["containsAny"] = FContainsAny
 
 	return module.NewModule("string", methods, globals)
 }

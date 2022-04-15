@@ -7,3 +7,7 @@ call print(str)
 const contains1 = call string.contains(str, "hello")
 
 call print("string contains 'hello':", contains1)
+
+const containsany1 = call string.containsAny(str, "xyz")
+
+call print("string containsAny 'xyz':", containsany1)
