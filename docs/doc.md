@@ -7,12 +7,17 @@ This file contains the basic syntax info. For other docs:
 - [Data types](datatypes.md)
 - [Array Module](array.md)
 - [Object Module](object.md)
+- [String Module](string.md)
 
 ## Basic Syntax
 
 The basic syntax for the Gago language.
 
 The Gago programming language is based off of lines, not semicolons (`;`), so expressions must be of one line, except some special expressions: such as `for` `if` ...
+
+### Importing modules
+
+To import a module, you enter the `import` keyword followed by the name of the module. To import the string module for example, you would do: `import string`. Now all the `string` methods and globals are accessible via `string.<field>`.
 
 ### Defining Variables
 
