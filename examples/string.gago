@@ -3,3 +3,7 @@ import string
 const str = call string.concat("hello", " ", "world", "!")
 
 call print(str)
+
+const contains1 = call string.contains(str, "hello")
+
+call print("string contains 'hello':", contains1)

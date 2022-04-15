@@ -13,6 +13,7 @@ func Init() *module.Module {
 	globals := make(map[string]lang.Type)
 
 	methods["concat"] = FConcat
+	methods["contains"] = FContains
 
 	return module.NewModule("string", methods, globals)
 }
