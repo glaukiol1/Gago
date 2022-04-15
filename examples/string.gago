@@ -17,6 +17,10 @@ const indx1 = call string.index(str, "world")
 call print("string index 'world':", indx1)
 call print("len of string:", call string.len(str))
 
+const atidx2 = call string.charAt(str, 2)
+
+call print("at index 2:", atidx2)
+
 const trimedSpace = call string.trimSpace("  1234  ")
 
 const s = call string.concat("trimSpace '  1234  ' = |", trimedSpace, "|")

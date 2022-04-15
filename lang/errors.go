@@ -8,7 +8,7 @@ import (
 type BaseError struct {
 	Type    string
 	Message string
-	stack   string
+	Stack   string
 	IsFatal bool
 }
 
@@ -27,13 +27,13 @@ func (baseError *BaseError) Error() string {
 func (baseError *BaseError) Run() {
 	if baseError.IsFatal {
 		fmt.Print(baseError.Type + ": " + baseError.Message)
-		fmt.Println(baseError.stack)
+		fmt.Println(baseError.Stack)
 		os.Exit(1)
 	}
 	fmt.Print(baseError.Type + ": " + baseError.Message)
-	fmt.Println(baseError.stack)
+	fmt.Println(baseError.Stack)
 }
 
-func Errorf(errtype, message, stack string, isFatal bool) *BaseError {
-	return &BaseError{errtype, message, stack, isFatal}
+func Errorf(errtype, message, Stack string, isFatal bool) *BaseError {
+	return &BaseError{errtype, message, Stack, isFatal}
 }

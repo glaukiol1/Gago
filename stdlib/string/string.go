@@ -18,6 +18,7 @@ func Init() *module.Module {
 	methods["trimSpace"] = FTrimSpace
 	methods["index"] = FIndex
 	methods["len"] = FLen
+	methods["charAt"] = FCharAt
 
 	return module.NewModule("string", methods, globals)
 }
