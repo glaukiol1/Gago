@@ -14,6 +14,10 @@ The basic syntax for the Gago language.
 
 The Gago programming language is based off of lines, not semicolons (`;`), so expressions must be of one line, except some special expressions: such as `for` `if` ...
 
+### Importing modules
+
+To import a module, you enter the `import` keyword followed by the name of the module. To import the string module for example, you would do: `import string`. Now all the `string` methods and globals are accessible via `string.<field>`.
+
 ### Defining Variables
 
 Defining a variable will add it to the memory map, which can be accessed or manipulated later on.
