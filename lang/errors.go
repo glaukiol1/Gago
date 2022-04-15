@@ -28,7 +28,7 @@ func (baseError *BaseError) Run() {
 	if baseError.IsFatal {
 		fmt.Print(baseError.Type + ": " + baseError.Message)
 		fmt.Println(baseError.stack)
-		os.Exit(0)
+		os.Exit(1)
 	}
 	fmt.Print(baseError.Type + ": " + baseError.Message)
 	fmt.Println(baseError.stack)
