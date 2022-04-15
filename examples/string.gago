@@ -12,6 +12,10 @@ const containsany1 = call string.containsAny(str, "xyz")
 
 call print("string containsAny 'xyz':", containsany1)
 
+const indx1 = call string.index(str, "world")
+
+call print("string index 'world':", indx1)
+
 const trimedSpace = call string.trimSpace("  1234  ")
 
 const s = call string.concat("trimSpace '  1234  ' = |", trimedSpace, "|")

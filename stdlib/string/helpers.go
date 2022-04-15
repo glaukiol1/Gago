@@ -85,7 +85,7 @@ func containsAnyString(args []lang.Type, opt *lang.Options) lang.Type {
 // and returns the new string
 func trimSpaceString(args []lang.Type, opt *lang.Options) lang.Type {
 	if len(args) != 1 {
-		lang.Errorf("TypeError", "Expected 2 arguments", "\n\t At call for string.trimSpace", true).Run()
+		lang.Errorf("TypeError", "Expected 1 argument", "\n\t At call for string.trimSpace", true).Run()
 	}
 	str := ""
 	x := args[0]
@@ -97,7 +97,33 @@ func trimSpaceString(args []lang.Type, opt *lang.Options) lang.Type {
 	return lang.String(strings.TrimSpace(str))
 }
 
+// Index returns the index of the first instance of substr
+// in string, or -1 if substr is not present in string.
+func indexString(args []lang.Type, opt *lang.Options) lang.Type {
+	if len(args) != 2 {
+		lang.Errorf("TypeError", "Expected 2 arguments", "\n\t At call for string.index", true).Run()
+	}
+	str := ""
+	searchstr := ""
+	x := args[0]
+	if x.Name() == "string" {
+		str += x.Val().(string)
+	} else {
+		lang.Errorf("TypeError", "Expected argument of type string", "\n\t At call for string.index", true).Run()
+	}
+
+	x = args[1]
+	if x.Name() == "string" {
+		searchstr += x.Val().(string)
+	} else {
+		lang.Errorf("TypeError", "Expected argument of type string", "\n\t At call for string.index", true).Run()
+	}
+	res := strings.Index(str, searchstr)
+	return lang.Int(int64(res))
+}
+
 var FConcat = lang.NewMethod("concat", concatString, "concat joins all the arguments together")
 var FContains = lang.NewMethod("contains", containsString, "contains searches for the substring in the specified string. Returns a boolean")
 var FContainsAny = lang.NewMethod("containsAny", containsAnyString, "containsAny checks if any of the chars are in the set string. Returns a boolean")
 var FTrimSpace = lang.NewMethod("trimSpace", trimSpaceString, "trimSpace removes all trailing and leading whitespaces and returns the new string")
+var FIndex = lang.NewMethod("index", indexString, "index returns the index of the first instance of substr in string, or -1 if substr is not present in string.")
