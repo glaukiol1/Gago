@@ -17,6 +17,7 @@ func Init() *module.Module {
 	methods["containsAny"] = FContainsAny
 	methods["trimSpace"] = FTrimSpace
 	methods["index"] = FIndex
+	methods["len"] = FLen
 
 	return module.NewModule("string", methods, globals)
 }

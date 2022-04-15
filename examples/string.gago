@@ -15,6 +15,7 @@ call print("string containsAny 'xyz':", containsany1)
 const indx1 = call string.index(str, "world")
 
 call print("string index 'world':", indx1)
+call print("len of string:", call string.len(str))
 
 const trimedSpace = call string.trimSpace("  1234  ")
 
